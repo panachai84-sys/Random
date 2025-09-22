@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>สุ่มทำโจทย์ทีละข้อ | Math Randomizer</title>
+
+<!-- MathJax v3 for LaTeX rendering -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true,
+    packages: {'[+]': ['base', 'ams']}
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#9da7b3; --accent:#36d399;
+    --accent2:#3b82f6; --danger:#ef4444; --warn:#f59e0b;
+  }
+  html,body{height:100%}
+  body{
+    margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans Thai", "TH Sarabun New", Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg); color: var(--ink);
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .app{width: min(900px, 96vw); margin: 16px 0 32px;}
+  .card{
+    background: var(--panel); border: 1px solid #263040; border-radius: 14px; padding: 16px 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+  h1{font-size:1.25rem; margin: 10px 0 16px; letter-spacing:.2px}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 14px}
+  .controls > *{flex:0 0 auto}
+  button, input, select{
+    background:#0b1220; color:var(--ink); border:1px solid #2b3445; border-radius:10px; padding:9px 12px;
+    font-size: 0.95rem;
+  }
+  button{cursor:pointer}
+  button.primary{background: linear-gradient(90deg, #16a34a, #22c55e); border: none; color:#04130a; font-weight:700}
+  button.blue{background: linear-gradient(90deg, #2563eb, #3b82f6); border:none}
+  button.warn{background: linear-gradient(90deg, #f59e0b, #fbbf24); border:none; color:#1b1302}
+  button.ghost{background:transparent}
+  button:disabled{opacity:.5; cursor:not-allowed}
+  .stretch{flex:1 1 auto}
+  .q-box, .a-box{background:#0b1220; border:1px solid #223048; border-radius:12px; padding:14px 16px}
+  .meta{display:flex; gap:12px; align-items:center; color:var(--muted); font-size:.95rem; margin:6px 2px 12px}
+  .chip{padding:4px 10px; border-radius:999px; border:1px solid #34465f; background:#0a1322; color:#b9c5d6}
+  .answer{margin-top:8px; display:none}
+  .progress-wrap{display:flex; align-items:center; gap:10px; margin:10px 2px 18px; color:var(--muted)}
+  progress{width:100%; height:14px; accent-color: var(--accent2)}
+  .footer{
+    margin-top:16px; color:var(--muted); font-size:.9rem; display:flex; gap:10px; flex-wrap:wrap; align-items:center
+  }
+  .kbd{padding:2px 6px; border:1px solid #3b4a64; border-bottom-width:2px; border-radius:6px; background:#0b1220; color:#cbd5e1; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+  .tag{background:#142033; border:1px solid #263a5a; padding:3px 8px; border-radius:999px; color:#b9c5d6}
+  details {margin-top: 8px;}
+  summary {cursor: pointer; color: #c7d2fe;}
+  .small{font-size:.9rem}
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="card">
+      <h1>สุ่มทำโจทย์ทีละข้อ · Math Randomizer</h1>
+
+      <div class="controls">
+        <button id="btn-rand" class="primary">สุ่มโจทย์ (ไม่ซ้ำ)</button>
+        <button id="btn-next" class="blue">ข้อถัดไป</button>
+        <button id="btn-prev" class="blue">ข้อก่อนหน้า</button>
+        <button id="btn-show" class="">แสดงเฉลย</button>
+        <button id="btn-hide" class="">ซ่อนเฉลย</button>
+        <span class="stretch"></span>
+        <input id="jumpId" placeholder="ไปข้อที่… (id)" size="8" />
+        <button id="btn-jump" class="">ไป</button>
+        <button id="btn-reset" class="warn">รีเซ็ตความคืบหน้า</button>
+      </div>
+
+      <div class="progress-wrap">
+        <span>ความคืบหน้า:</span>
+        <progress id="prog" value="0" max="100"></progress>
+        <span id="progText">0/0</span>
+      </div>
+
+      <div class="meta">
+        <span class="chip" id="meta-id">ข้อที่ —</span>
+        <span class="chip" id="meta-status">สถานะ: —</span>
+        <span class="chip" id="meta-queue">เหลือในรอบนี้: —</span>
+      </div>
+
+      <div class="q-box" id="qBox">
+        <div id="question" class="question">
+          คลิก “สุ่มโจทย์” เพื่อเริ่ม
+        </div>
+      </div>
+
+      <details id="ansWrap">
+        <summary>เฉลย / คำตอบ</summary>
+        <div class="a-box answer" id="answer">
+          —
+        </div>
+      </details>
+
+      <div class="footer">
+        <span class="tag">กด <span class="kbd">R</span> = สุ่ม • <span class="kbd">A</span> = เฉลย • <span class="kbd">N</span>/<span class="kbd">P</span> = ถัดไป/ก่อนหน้า</span>
+        <span class="small">สถานะและคิวโจทย์ถูกบันทึกไว้ในเบราว์เซอร์ (localStorage)</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+/** ---------- โจทย์: เพิ่ม/แก้ที่นี่ ---------- **/
+/** รูปแบบแต่ละข้อ:
+ * { id: 1, statement: `...LaTeX/ข้อความ...`, answer: `...เฉลย...` }
+ * - ใช้ backtick (`) ครอบข้อความ จะวาง LaTeX ได้เลย เช่น \\int, \\lim, \\displaystyle
+ * - ถ้าข้อมีหลายบรรทัด ใช้ <br> หรือ \\\\ ได้
+ */
+const problemBank = [
+  {
+    id: 1,
+    statement: `กำหนดให้ \\(f:\\mathbb{R}\\to\\mathbb{R}\\) โดย \\(f''(x)=0\\) ทุกจำนวนจริง และ \\(f(0)=23,\\ f(1)=103\\). จงหาค่า \\(\\displaystyle \\int_{0}^{1} f(x)\\,dx\\).`,
+    answer: `เพราะ \\(f''=0\\Rightarrow f(x)=Ax+B\\). จาก \\(f(0)=B=23\\), \\(f(1)=A+23=103\\Rightarrow A=80\\). ดังนั้น \\(\\int_0^1 (80x+23)dx=40+23=\\boxed{63}.`
+  },
+  {
+    id: 2,
+    statement: `ให้เส้นตรง \\(L\\) ผ่านจุด \\((0,10)\\) และมีความชัน \\(-1<m<0\\). พื้นที่ที่ถูกปิดล้อมกับแกน \\(x\\) ตั้งแต่ \\(x=0\\) ถึง \\(x=6\\) เท่ากับ 51. จงหาพื้นที่ช่วง \\(x=0\\) ถึง \\(x=3\\).`,
+    answer: `เส้นตรง: \\(y=mx+10\\). พื้นที่บนแกน x ระหว่าง 0→6 คือ \\(\\int_0^6 (mx+10)\\,dx=3m\\cdot6+60=18m+60=51\\Rightarrow m=-\\tfrac{1}{2}.\\)
+พื้นที่ช่วง 0→3 คือ \\(\\int_0^3 (-\\tfrac12 x+10)dx= -\\tfrac14 x^2+10x\\big|_0^3= -\\tfrac{9}{4}+30=\\boxed{27.75}.`
+  },
+  {
+    id: 3,
+    statement: `จงหา \\(\\displaystyle \\lim_{x\\to0} \\frac{x}{\\sqrt[3]{x+8}+\\sqrt[3]{x-8}}\\).`,
+    answer: `ใช้อนุพันธ์เชิงเส้น (หรือคูณด้วยตัวร่วมเชิงซ้อนกำลังสาม) ได้ลิมิต = \\(\\dfrac{1}{\\tfrac{1}{3}8^{-2/3}+\\tfrac{1}{3}(-8)^{-2/3}}=\\dfrac{1}{\\tfrac{1}{3}\\cdot(1/4)+\\tfrac{1}{3}\\cdot(1/4)}=\\dfrac{1}{\\tfrac{1}{6}}=\\boxed{6}.`
+  },
+  {
+    id: 4,
+    statement: `ให้ \\(a,b\\in\\mathbb{R}^+\\) และ \\(\\tan\\theta=\\tfrac{a}{b}\\). ถ้า
+    \\[
+      \\left(\\tfrac{\\cos\\theta}{a}\\right)^4+\\left(\\tfrac{\\sin\\theta}{b}\\right)^4
+      =\\frac{\\sin2\\theta}{ab(a^2+b^2)}
+    \\]
+    จงหา \\(\\left(\\tfrac{3a}{b}\\right)^3+\\left(\\tfrac{b}{2a}\\right)^2.\\`,
+    answer: `หลังจัดรูปด้วยการแทน \\(\\sin,\\cos\\) ตาม \\(\\tan\\theta=a/b\\) จะได้ผลลัพธ์เป็นค่าคงที่ \\(\\boxed{27.25}.\\) (อ้างอิงเฉลยที่ให้ไว้)`
+  },
+  {
+    id: 5,
+    statement: `ให้
+    \\[
+    \\frac{1^{2}+2^{2}+\\cdots+n^{2}}{1\\cdot2+2\\cdot3+\\cdots+(n-1)n}=\\frac{231}{228}
+    \\]
+    จงหา \\(n\\).`,
+    answer: `ใช้สูตรผลบวกกำลังสอง: \\(\\sum_{k=1}^n k^2=\\tfrac{n(n+1)(2n+1)}{6}\\) และ \\(\\sum_{k=1}^{n-1}k(k+1)=\\tfrac{(n-1)n(n+1)}{3}\\). เทียบบัญญัติไตรยางศ์แล้วได้ \\(\\boxed{115}.\\)`
+  },
+  {
+    id: 6,
+    statement: `สามเหลี่ยม \\(ABC\\) มีด้านตรงข้ามมุม \\(A,B,C\\) ยาว \\(a,b,c\\) และ
+    \\((\\sin A-\\sin B+\\sin C)(\\sin A+\\sin B+\\sin C)=3\\sin A\\sin C\\).
+    จงหา \\(\\sqrt{3\\csc^2B+3\\sec^2B}\\).`,
+    answer: `จัดรูปด้วยสูตรผลบวก/ผลต่างไซน์และอาศัยเอกลักษณ์สามเหลี่ยม ได้ค่าคงที่ \\(\\boxed{4}.\\)`
+  },
+  {
+    id: 7,
+    statement: `สุ่มเลือกจำนวนตั้งแต่ 1 ถึง 15 มา 5 จำนวน (ไม่ระบุว่าซ้ำได้/ไม่ได้—ตามปกติ “ไม่แทนที่”).
+    จงหาจำนวนวิธีที่ผลรวมทั้ง 5 จำนวนหาร 3 ลงตัว.`,
+    answer: `ใช้การนับด้วยคลาสตามโมดูลาร์ 3 และหลักการพหุภาค (หรือ GF) ได้คำตอบ \\(\\boxed{1001}.\\)`
+  },
+  {
+    id: 8,
+    statement: `บัตร 8 ใบ ได้แก่ 1, 1, 2, 2, 3, 3, 4, 4 เลือกมา 4 ใบเรียงเป็นจำนวนเต็ม 4 หลัก กี่จำนวน?`,
+    answer: `นับแบบจัดหมู่ตามชนิดซ้ำและหลักวางตำแหน่ง จะได้ \\(\\boxed{204}.\\)`
+  },
+  {
+    id: 9,
+    statement: `ให้ \\(0\\le x\\le2\\pi,\\ A=\\{x\\mid \\log_2(-3\\cos x)=1+2\\log_2\\sin x\\}\\) และ \\(B=\\{\\sec3x-\\cos2x\\mid x\\in A\\}.\\)
+    จงหาผลบวกสมาชิกทั้งหมดใน \\(B\\).`,
+    answer: `แก้เงื่อนไขลอการิทึมให้โดเมนถูกต้อง, แทนตรีโกณฯ แล้วรวมค่าที่ได้ ⇒ \\(\\boxed{1.5}.\\)`
+  },
+  {
+    id: 10,
+    statement: `คะแนนสอบ 500 คน มีการแจกแจงปกติ \\(\\mu=60,\\ \\sigma=6\\). จำนวนนักเรียนที่ได้มากกว่า 51 แต่น้อยกว่า 66 เท่าไร? (ตารางพื้นที่ให้มา)`,
+    answer: `แปลงเป็นค่า Z: จาก 51→\\(Z=-1.5\\), จาก 66→\\(Z=1.0\\). ใช้พื้นที่จากตารางแล้วคูณ 500 ⇒ \\(\\boxed{387}\\) คน.`
+  },
+  {
+    id: 11,
+    statement: `ข้อมูลชุดหนึ่งแจกแจงปกติ มีมัธยฐาน 12, ส่วนเบี่ยงเบนมาตรฐาน 8 และ \\(\\sum_{i=1}^{N}(x_i-10)^2=5440\\). จงหา \\(N\\).`,
+    answer: `เพราะปกติ ⇒ มัธยฐาน=ค่าเฉลี่ย=12. ใช้ \\(\\sum (x_i-\\mu)^2 = N\\sigma^2\\) กับการขยาย \\((x_i-10)^2\\) แล้วแก้หา \\(\\boxed{80}.\\)`
+  },
+  {
+    id: 12,
+    statement: `ให้ \\(f:\\mathbb{N}\\to\\mathbb{N}\\) โดย \\(f(x+y)=f(x)+f(y)+4xy\\) และ \\(f(1)=4\\). จงหา \\(f(20)\\).`,
+    answer: `ลองเดาแบบพหุนามดีกรีสอง: \\(f(x)=ax^2+bx+c\\) แล้วแทนสมการเชิงฟังก์ชัน จะได้ \\(\\boxed{840}.\\)`
+  },
+  {
+    id: 13,
+    statement: `กำหนด \\(a(n,m)=a(n,m-1)+a(n-1,m-1)\\), \\(a(1,1)=10, a(2,1)=5, a(4,1)=4, a(4,4)=50\\). จงหา \\(a(3,1)\\).`,
+    answer: `ไล่ตารางแบบพาสคัลลักษณะและใช้ค่าชายขอบที่ให้มา ⇒ \\(\\boxed{7}.\\)`
+  },
+  {
+    id: 14,
+    statement: `ให้ \\(r=\\{(x,y)\\in\\mathbb{R}^2\\mid |x|y+y-x-1=0\\}\\). พิจารณา (ก) โดเมน \\(D_r=\\{x\\in\\mathbb{R}\\mid x\\ne -1\\}\\) (ข) \\(r^{-1}\\) เป็นฟังก์ชัน. ข้อใดถูก?`,
+    answer: `ตรวจเงื่อนไขนิยามและเอกลักษณ์กลับ ⇒ \\(\\boxed{4}\\) (ก.ผิด และ ข.ผิด).`
+  },
+  {
+    id: 15,
+    statement: `ให้ \\(0^\\circ<\\theta<45^\\circ\\) และ \\(A=(\\sin\\theta)^{\\tan\\theta},\\ B=(\\sin\\theta)^{\\cot\\theta},\\ C=(\\cot\\theta)^{\\sin\\theta},\\ D=(\\cot\\theta)^{\\cos\\theta}\\). เลือกลำดับความใหญ่ถูกต้อง.`,
+    answer: `จัดอันดับด้วยลอการิทึมและโดเมนมุม ⇒ \\(\\boxed{2}\\) คือ \\(B<A<C<D\\).`
+  }
+];
+
+/** ---------- แอปหลัก ---------- **/
+const $ = s => document.querySelector(s);
+const stateKey = 'math_randomizer_state_v1';
+
+let queue = [];         // คิว “ยังไม่ถูกเปิด” สำหรับรอบปัจจุบัน (ไม่ซ้ำจนกว่าจะครบ)
+let seen = new Set();   // id ที่เปิดไปแล้ว (สะสม)
+let cur = null;         // id ปัจจุบัน
+
+function saveState(){
+  const data = { seen: [...seen], queue, cur };
+  localStorage.setItem(stateKey, JSON.stringify(data));
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(stateKey);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    seen = new Set(data.seen||[]);
+    queue = Array.isArray(data.queue)? data.queue : [];
+    cur = data.cur ?? null;
+  }catch(_){}
+}
+function resetState(){
+  seen.clear(); queue = []; cur = null; saveState(); updateProgress(); updateMeta();
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function refillQueue(){
+  const allIds = problemBank.map(p=>p.id);
+  const remaining = allIds.filter(id=>!seen.has(id));
+  queue = shuffle(remaining);
+}
+
+function renderProblem(id){
+  const prob = problemBank.find(p=>p.id===id);
+  if(!prob){ $("#question").textContent = "ไม่พบข้อที่ระบุ"; return; }
+  cur = id;
+  $("#question").innerHTML = prob.statement;
+  $("#answer").innerHTML = prob.answer || "(ยังไม่ใส่เฉลย)";
+  $("#ansWrap").open = false;
+  document.querySelector(".answer").style.display = "none";
+  updateMeta();
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise(); }
+}
+
+function showAnswer(){
+  $("#ansWrap").open = true;
+  document.querySelector(".answer").style.display = "block";
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise(); }
+}
+
+function pickRandom(){
+  if(queue.length===0) refillQueue();
+  if(queue.length===0){ // กรณีโจทย์ว่าง
+    $("#question").textContent = "ยังไม่มีโจทย์ในคลัง";
+    return;
+  }
+  const id = queue.shift();
+  seen.add(id);
+  saveState();
+  renderProblem(id);
+  updateProgress();
+}
+
+function nextProblem(){
+  pickRandom();
+}
+function prevProblem(){
+  const history = [...seen];
+  if(history.length<=1) return;
+  const prevId = history[history.length-2];
+  if(cur!=null){ queue.unshift(cur); seen.delete(cur); }
+  renderProblem(prevId);
+  saveState();
+  updateProgress();
+}
+
+function jumpTo(id){
+  id = Number(id);
+  if(!problemBank.some(p=>p.id===id)) return alert("ไม่มีข้อหมายเลขนี้");
+  cur = id;
+  renderProblem(id);
+}
+
+function updateProgress(){
+  const total = problemBank.length;
+  const done = seen.size;
+  const pct = total? Math.round(done/total*100) : 0;
+  $("#prog").max = 100; $("#prog").value = pct;
+  $("#progText").textContent = `${done}/${total}`;
+}
+function updateMeta(){
+  const totalRemain = queue.length;
+  $("#meta-id").textContent = cur? `ข้อที่ ${cur}` : "ข้อที่ —";
+  $("#meta-status").textContent = `ทำแล้ว ${seen.size} ข้อ`;
+  $("#meta-queue").textContent = `เหลือในรอบนี้ ${totalRemain} ข้อ`;
+}
+
+function initShortcuts(){
+  document.addEventListener('keydown', (e)=>{
+    if(e.target && ['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+    if(e.key==='r' || e.key==='R') pickRandom();
+    if(e.key==='a' || e.key==='A') showAnswer();
+    if(e.key==='n' || e.key==='N') nextProblem();
+    if(e.key==='p' || e.key==='P') prevProblem();
+  });
+}
+
+/** ---------- เริ่มทำงาน ---------- **/
+loadState();
+updateProgress(); updateMeta();
+if(cur!=null) renderProblem(cur);
+
+document.getElementById("btn-rand").addEventListener('click', pickRandom);
+document.getElementById("btn-next").addEventListener('click', nextProblem);
+document.getElementById("btn-prev").addEventListener('click', prevProblem);
+document.getElementById("btn-show").addEventListener('click', showAnswer);
+document.getElementById("btn-hide").addEventListener('click', ()=>{document.getElementById("ansWrap").open=false; document.querySelector(".answer").style.display="none";});
+document.getElementById("btn-jump").addEventListener('click', ()=> jumpTo(document.getElementById("jumpId").value));
+document.getElementById("btn-reset").addEventListener('click', ()=>{ if(confirm("ล้างความคืบหน้า/คิวทั้งหมด?")){ resetState(); }});
+initShortcuts();
+</script>
+</body>
+</html>
