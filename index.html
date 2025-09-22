@@ -7,24 +7,6 @@
 <title>สุ่มทำโจทย์ · 90 นาที · ไม่เฉลยรายข้อ (ล็อกด้วยรหัส)</title>
 
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)'], ['$', '$']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    packages: {'[+]': ['base','ams']}
-macros: {
-  arcsec: "\\operatorname{arcsec}",
-  arccsc: "\\operatorname{arccsc}",
-  arccot: "\\operatorname{arccot}"
-}
-  },
-  svg: { fontCache: 'global' }
-};
-</script>
-
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
   :root{
     --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#9da7b3; --accent:#36d399;
@@ -80,6 +62,26 @@ macros: {
   .timer.danger{color:#fecaca}
   .score{font-size:1.05rem; background:#0b1220; border:1px solid #2b3445; border-radius:10px; padding:10px 12px; margin-top:12px}
 </style>
+
+<!-- MathJax: stable SVG output with TeX fonts + custom macros -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true,
+    packages: {'[+]': ['base','ams']},
+    macros: {
+      arcsec: "\\operatorname{arcsec}",
+      arccsc: "\\operatorname{arccsc}",
+      arccot: "\\operatorname{arccot}"
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 </head>
 <body>
 <div aria-hidden="false" id="loginScreen">
@@ -400,7 +402,7 @@ macros: {
   },
   {
     "id": 30,
-    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ให้ $f:R \\to R, g:R \\to R$ และ $h:R \\to R$ เป็นฟังก์ชัน <br>โดยที่ $f(x) = \\displaystyle \\frac{ax+1}{x^2+1}$ เมื่อ $a$ เป็นจำนวนจริง, $g(x) = (x^2+1)f'(x)$ <br>และ $h(x) = \\begin{cases} f(x) & \\text{เมื่อ } x \\ge 2 \\\\ g(x) & \\text{เมื่อ } x < 2 \\end{cases}$<br>ถ้าฟังก์ชัน $h$ ต่อเนื่องที่ $x=2$ <br>แล้ว ค่าของ $2h(-2) - h(2)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>0.6</li><li>0.8</li><li>1</li><li>3</li></ol>",
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ให้ $f:R \\to R, g:R \\to R$ และ $h:R \\to R$ เป็นฟังก์ชัน <br>โดยที่ $f(x) = \\displaystyle \\frac{ax+1}{x^2+1}$ เมื่อ $a$ เป็นจำนวนจริง, $g(x) = (x^2+1)f'(x)$ <br>และ $h(x) = \\begin{cases} f(x) & \\text{;} x \\ge 2 \\\\ g(x) & \\text{;} x < 2 \\end{cases}$<br>ถ้าฟังก์ชัน $h$ ต่อเนื่องที่ $x=2$ <br>แล้ว ค่าของ $2h(-2) - h(2)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>0.6</li><li>0.8</li><li>1</li><li>3</li></ol>",
     "answerType": "choice",
     "correct": [
       "4"
@@ -724,7 +726,7 @@ macros: {
   },
   {
     "id": 66,
-    "statementHtml": "ถ้า $ \\displaystyle \\arcsec x = \\arcsin\\frac{1}{\\sqrt{17}}-2~\\arccos\\frac{2}{\\sqrt{5}}$ แล้ว $\\displaystyle \\cot(\\frac{\\pi}{2}+\u0007rcsec~x)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle-\\frac{13}{9}$</li><li>$\\displaystyle\\frac{13}{9}$</li><li>$\\displaystyle-\\frac{13}{16}$</li><li>$\\displaystyle\\frac{13}{16}$</li></ol>",
+    "statementHtml": "ถ้า $ \\displaystyle \\arcsec x = \\arcsin\\frac{1}{\\sqrt{17}}-2~\\arccos\\frac{2}{\\sqrt{5}}$ แล้ว $\\displaystyle \\cot(\\frac{\\pi}{2}+\\arcsec~x)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle-\\frac{13}{9}$</li><li>$\\displaystyle\\frac{13}{9}$</li><li>$\\displaystyle-\\frac{13}{16}$</li><li>$\\displaystyle\\frac{13}{16}$</li></ol>",
     "answerType": "choice",
     "correct": [
       "4"
