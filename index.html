@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>สุ่มทำโจทย์ · 90 นาที · ไม่เฉลยรายข้อ (ล็อกด้วยรหัส)</title>
 
-<!-- MathJax v3 -->
 <script>
 window.MathJax = {
   tex: {
@@ -76,7 +75,6 @@ window.MathJax = {
 </style>
 </head>
 <body>
-  <!-- LOGIN GATE -->
   <div id="loginScreen" aria-hidden="false">
     <div id="loginBox" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
       <h2 id="loginTitle">กรอกรหัสผ่านเพื่อเริ่มทำข้อสอบ</h2>
@@ -89,7 +87,6 @@ window.MathJax = {
     </div>
   </div>
 
-  <!-- QUIZ APP (ซ่อนจนกว่าจะล็อกอิน) -->
   <div id="quizApp" style="display:none;">
     <div class="app">
       <div class="card">
@@ -140,7 +137,6 @@ window.MathJax = {
     </div>
   </div>
 
-<!-- ===== BANK: ตัวอย่าง 10 ข้อ (คุณเพิ่มให้ถึง 30/100 ได้เลย) ===== -->
 <script id="bank" type="application/json">
 [
   {
@@ -859,9 +855,8 @@ function tryLogin(){
   if(v === CORRECT_PASSWORD){
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('quizApp').style.display = 'block';
-    document.getElementById('pwd').value = ''; msg.textContent = '';
-    // อัปเดตจำนวนในคลัง
-    updateCounts();
+    // เรียก init() หลังจาก login สำเร็จ
+    init();
   }else{
     msg.textContent = 'รหัสผ่านไม่ถูกต้อง';
     const box = document.getElementById('loginBox');
@@ -874,10 +869,13 @@ const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const stateKey = 'math_quiz_90min_nosolutions_v1';
 
-const LIMIT_SECONDS = 90 * 60; // 90 นาทีแบบรวมทั้งชุด
+const LIMIT_SECONDS = 90 * 60;
 let timer = null;
 let remaining = LIMIT_SECONDS;
 let timerStarted = false;
+
+// [ย้ายมานี่] ประกาศตัวแปร BANK ไว้ด้านนอกสุดเพื่อให้ทุกฟังก์ชันรู้จัก
+let BANK;
 
 function fmtTime(sec){
   sec = Math.max(0, Math.floor(sec));
@@ -909,7 +907,6 @@ function startTimerIfNeeded(){
   timer = setInterval(tick, 1000);
 }
 function timeUpLock(){
-  // ปิดการตอบ แต่ยังให้สรุปคะแนนได้
   $('#answerInput').disabled = true;
   $('#btn-submit').disabled = true;
   $('#btn-rand').disabled = true;
@@ -919,14 +916,13 @@ function timeUpLock(){
 /* ====== BANK / STATE ====== */
 function parseBank(){
   try{ return JSON.parse(document.getElementById('bank').textContent) || []; }
-  catch(e){ return []; }
+  catch(e){ console.error("Failed to parse question bank:", e); return []; }
 }
-let BANK = parseBank();
 
-let queue = []; // คิวสุ่ม (ยังคงสุ่มแบบไม่ซ้ำในรอบ แต่ไม่บังคับว่าต้องใช้ครบ)
+let queue = [];
 let seen = [];
 let curId = null;
-let answers = {}; // { id: { user, correct } }
+let answers = {};
 
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]];} return a; }
 function refillQueue(){
@@ -935,15 +931,14 @@ function refillQueue(){
   queue = shuffle(remain);
 }
 function updateCounts(){
-  $('#meta-queue').textContent = `ในคลัง ${BANK.length} ข้อ`;
+    if (BANK) {
+        $('#meta-queue').textContent = `ในคลัง ${BANK.length} ข้อ`;
+    }
 }
 
 /* ====== Persistence ====== */
 function saveState(){
-  const data = {
-    queue, seen, curId, answers,
-    remaining, timerStarted
-  };
+  const data = { queue, seen, curId, answers, remaining, timerStarted };
   localStorage.setItem(stateKey, JSON.stringify(data));
 }
 function loadState(){
@@ -962,6 +957,7 @@ function loadState(){
 
 /* ====== Rendering / Navigation ====== */
 function updateProgress(){
+  if (!BANK || BANK.length === 0) return;
   const total = BANK.length;
   const done = Object.keys(answers).length;
   const pct = total? Math.round(done/total*100) : 0;
@@ -986,18 +982,17 @@ function render(id){
 
   updateMetaId(); updateProgress(); saveState();
 
-  // ถ้าหมดเวลาแล้วให้ล็อก input
   if(remaining<=0) timeUpLock();
 }
 function pickRandom(){
-  if(BANK.length===0){ $('#question').textContent='ยังไม่มีโจทย์ในคลัง'; return; }
-  // เริ่มจับเวลาเมื่อสุ่มครั้งแรก
+  if(!BANK || BANK.length === 0){
+    $('#question').textContent='ยังไม่มีโจทย์ในคลัง';
+    return;
+  }
   startTimerIfNeeded();
-
-  if(queue.length===0) refillQueue();
-  if(queue.length===0){
-    // คลังว่างจริง ๆ
-    render(curId);
+  if(queue.length === 0) refillQueue();
+  if(queue.length === 0){
+    $('#question').textContent = 'คุณทำโจทย์ในคลังครบทุกข้อแล้ว!';
     return;
   }
   const id = queue.shift();
@@ -1042,6 +1037,7 @@ function saveAnswer(){
 
 /* ====== Finish: Summary only ====== */
 function finishQuiz(){
+  if (!BANK) return;
   const total = BANK.length;
   let ansCount = 0, correctCount = 0, blank = 0;
   BANK.forEach(p=>{
@@ -1064,10 +1060,15 @@ function finishQuiz(){
 }
 
 /* ====== Init ====== */
+// [แก้ไข] ย้ายการเรียก init ออกไปหลังจาก login แล้ว
+// document.addEventListener('DOMContentLoaded', init); // เอาบรรทัดนี้ออก
+
 function init(){
+  // โหลดคลังโจทย์ตรงนี้เป็นอันดับแรก
+  BANK = parseBank();
+
   loadState();
 
-  // restore timer view
   $('#timer').textContent = `เวลาที่เหลือ: ${fmtTime(remaining)}`;
   setTimerClass();
   if(timerStarted && remaining>0){
@@ -1076,8 +1077,7 @@ function init(){
     timeUpLock();
   }
 
-  // wire buttons
- $('#btn-rand').addEventListener('click', pickRandom);//
+  $('#btn-rand').addEventListener('click', pickRandom);
   $('#btn-submit').addEventListener('click', saveAnswer);
   $('#btn-finish').addEventListener('click', finishQuiz);
   $('#btn-reset').addEventListener('click', ()=>{
@@ -1093,11 +1093,15 @@ function init(){
     }
   });
 
-  updateProgress(); updateMetaId(); updateCounts();
+  // อัปเดตหน้าจอครั้งแรกหลังโหลดทุกอย่างเสร็จ
+  updateProgress();
+  updateMetaId();
+  updateCounts(); // สำคัญมาก: ต้องเรียกหลัง BANK โหลดแล้ว
 
   if(curId!=null){ render(curId); }
 }
-document.addEventListener('DOMContentLoaded', init);
+
 </script>
+
 </body>
 </html>
