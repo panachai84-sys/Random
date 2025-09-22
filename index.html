@@ -1065,8 +1065,8 @@ function finishQuiz(){
 
 function init(){
   // โหลดคลังโจทย์ตรงนี้เป็นอันดับแรก
+let BANK; 
   BANK = parseBank();
-
   loadState();
 
   $('#timer').textContent = `เวลาที่เหลือ: ${fmtTime(remaining)}`;
