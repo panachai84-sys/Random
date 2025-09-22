@@ -1103,5 +1103,267 @@ let BANK;
 
 </script>
 
+
+<script>
+(() => {
+  // --- Helpers ---
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => String(n).padStart(2, '0');
+
+  // Parse bank
+  let bank = [];
+  try {
+    const raw = document.getElementById('bank')?.textContent?.trim() || '[]';
+    bank = JSON.parse(raw);
+  } catch (e) {
+    console.error('อ่านคลังโจทย์ไม่สำเร็จ:', e);
+    bank = [];
+  }
+
+  // Elements
+  const loginScreen = $('loginScreen');
+  const btnLogin = $('btnLogin');
+  const pwd = $('pwd');
+  const msg = $('msg');
+  const quizApp = $('quizApp');
+
+  const metaId = $('meta-id');
+  const metaStatus = $('meta-status');
+  const metaQueue = $('meta-queue');
+  const timerEl = $('timer');
+  const prog = $('prog');
+  const progText = $('progText');
+  const qBox = $('question');
+  const mcWrap = $('mcWrap');
+  const freeWrap = $('freeWrap');
+  const ansInput = $('answerInput');
+  const btnSubmit = $('btn-submit');
+  const btnRand = $('btn-rand');
+  const btnFinish = $('btn-finish');
+  const btnReset = $('btn-reset');
+  const savedMsg = $('savedMsg');
+  const scoreWrap = $('scoreWrap');
+
+  // Session state
+  const MAX_Q = 30; // sample size per user
+  let seq = [];            // shuffled list of question objects for this session
+  let idx = -1;           // current index in seq
+  let answered = 0;
+  let correctCnt = 0;
+  let remaining = 0;
+  let started = false;
+  let timer = 90 * 60;    // 90 minutes in seconds
+  let tHandle = null;
+  const given = {};       // user answers by id
+
+  // --- UI setup from bank count ---
+  function updateQueueBadge() {
+    metaQueue.textContent = `ในคลัง ${remaining} ข้อ`;
+  }
+  function updateStatusBadge() {
+    metaStatus.textContent = `ตอบแล้ว ${answered} ข้อ`;
+  }
+  function updateProg() {
+    const total = seq.length || 0;
+    prog.max = total || 1;
+    prog.value = answered;
+    progText.textContent = `${answered}/${total}`;
+  }
+  function renderTimer() {
+    const m = Math.floor(timer/60), s = timer%60;
+    timerEl.textContent = `เวลาที่เหลือ: ${m}:${fmt(s)}`;
+    timerEl.classList.remove('ok','warn','danger');
+    if (timer <= 5*60) timerEl.classList.add('danger');
+    else if (timer <= 20*60) timerEl.classList.add('warn');
+    else timerEl.classList.add('ok');
+  }
+  function startTimer() {
+    if (tHandle) return;
+    renderTimer();
+    tHandle = setInterval(() => {
+      if (timer <= 0) {
+        clearInterval(tHandle); tHandle = null;
+        finishSession(true);
+        return;
+      }
+      timer--;
+      renderTimer();
+    }, 1000);
+  }
+
+  // Shuffle helper (Fisher-Yates)
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i=a.length-1; i>0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function initSession() {
+    // sample MAX_Q questions from bank
+    const pool = shuffle(bank);
+    const take = Math.min(MAX_Q, pool.length);
+    seq = pool.slice(0, take);
+    idx = -1;
+    answered = 0;
+    correctCnt = 0;
+    remaining = seq.length;
+    started = true;
+    given.clear;
+    scoreWrap.style.display = 'none';
+    metaId.textContent = '—';
+    updateQueueBadge();
+    updateStatusBadge();
+    updateProg();
+    btnRand.textContent = 'ข้อต่อไป';
+    savedMsg.textContent = '';
+    startTimer();
+    nextQuestion();
+  }
+
+  function nextQuestion() {
+    if (!started) { initSession(); return; }
+    if (answered >= seq.length) {
+      finishSession(false);
+      return;
+    }
+    idx++;
+    const q = seq[idx];
+    metaId.textContent = `ข้อที่ ${idx+1} · id=${q.id}`;
+    // Render statement (MathJax will typeset)
+    qBox.innerHTML = q.statementHtml;
+    // Answer UI
+    savedMsg.textContent = '';
+    if (q.answerType === 'choice') {
+      // Show dropdown 1..4 (options text already in statementHtml)
+      mcWrap.style.display = 'block';
+      mcWrap.innerHTML = `
+        <div style="margin-top:8px">เลือกคำตอบของคุณ:</div>
+        <label style="display:inline-flex; align-items:center; gap:8px; margin-right:14px;">
+          <input type="radio" name="ans" value="1"> 1
+        </label>
+        <label style="display:inline-flex; align-items:center; gap:8px; margin-right:14px;">
+          <input type="radio" name="ans" value="2"> 2
+        </label>
+        <label style="display:inline-flex; align-items:center; gap:8px; margin-right:14px;">
+          <input type="radio" name="ans" value="3"> 3
+        </label>
+        <label style="display:inline-flex; align-items:center; gap:8px;">
+          <input type="radio" name="ans" value="4"> 4
+        </label>
+      `;
+      freeWrap.style.display = 'none';
+      ansInput.value = '';
+    } else {
+      mcWrap.style.display = 'none';
+      freeWrap.style.display = 'block';
+      ansInput.value = '';
+      ansInput.focus();
+    }
+    // Typeset math
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([qBox]);
+    }
+  }
+
+  function checkAnswer(q, userValRaw) {
+    if (q.answerType === 'choice') {
+      return String(q.correct[0]) === String(userValRaw);
+    } else {
+      const expect = parseFloat(q.correct[0]);
+      const tol = q.tolerance ?? 0;
+      const val = Number(userValRaw);
+      if (Number.isNaN(val) || !Number.isFinite(val)) return false;
+      return Math.abs(val - expect) <= tol;
+    }
+  }
+
+  btnSubmit?.addEventListener('click', () => {
+    if (!started || idx < 0 || idx >= seq.length) return;
+    const q = seq[idx];
+    let userAns;
+    if (q.answerType === 'choice') {
+      const sel = mcWrap.querySelector('input[name="ans"]:checked');
+      if (!sel) { savedMsg.textContent = 'โปรดเลือกคำตอบ'; return; }
+      userAns = sel.value;
+    } else {
+      const v = ansInput.value.trim();
+      if (!v) { savedMsg.textContent = 'โปรดพิมพ์คำตอบ'; return; }
+      userAns = v;
+    }
+    const ok = checkAnswer(q, userAns);
+    given[q.id] = { userAns, ok };
+    answered++;
+    remaining = Math.max(0, seq.length - answered);
+    updateQueueBadge();
+    updateStatusBadge();
+    updateProg();
+    savedMsg.textContent = ok ? '✔ บันทึกแล้ว (ถูก)' : '✖ บันทึกแล้ว (ผิด)';
+    if (ok) correctCnt++;
+    // move to next after short delay
+    setTimeout(() => nextQuestion(), 450);
+  });
+
+  btnRand?.addEventListener('click', () => {
+    if (!started) initSession();
+    else nextQuestion();
+  });
+
+  function finishSession(timeup) {
+    started = false;
+    const total = seq.length;
+    const wrong = total - correctCnt;
+    const percent = total ? Math.round((correctCnt/total)*100) : 0;
+    scoreWrap.style.display = 'block';
+    scoreWrap.innerHTML = `สรุปคะแนน: ได้ ${correctCnt}/${total} (${percent}%) ` + (timeup ? '• หมดเวลา' : '');
+    metaId.textContent = '—';
+    btnRand.textContent = 'เริ่มใหม่';
+  }
+
+  btnFinish?.addEventListener('click', () => finishSession(false));
+  btnReset?.addEventListener('click', () => {
+    // Reset entire progress and timer
+    if (tHandle) { clearInterval(tHandle); tHandle = null; }
+    timer = 90 * 60;
+    renderTimer();
+    seq = []; idx = -1; answered = 0; correctCnt = 0; remaining = 0; started = false;
+    qBox.innerHTML = 'คลิก “สุ่มโจทย์” เพื่อเริ่ม';
+    scoreWrap.style.display = 'none';
+    updateQueueBadge();
+    updateStatusBadge();
+    updateProg();
+    btnRand.textContent = 'สุ่มโจทย์';
+    savedMsg.textContent = '';
+  });
+
+  // --- Login: allow any non-empty password (you can customize) ---
+  btnLogin?.addEventListener('click', () => {
+    // accept any password; customize validation here if needed
+    loginScreen.style.display = 'none';
+    loginScreen.setAttribute('aria-hidden','true');
+    quizApp.style.display = 'block';
+    // Show initial counts based on full bank
+    remaining = Math.min(MAX_Q, bank.length);
+    updateQueueBadge();
+    updateStatusBadge();
+    prog.max = remaining || 1; prog.value = 0; progText.textContent = `0/${remaining}`;
+  });
+
+  // Enter key to submit password
+  pwd?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btnLogin.click();
+  });
+
+  // Initial display (before login)
+  remaining = Math.min(MAX_Q, bank.length);
+  updateQueueBadge();
+  updateStatusBadge();
+  prog.max = remaining || 1; prog.value = 0; progText.textContent = `0/${remaining}`;
+  renderTimer();
+})();
+</script>
+
 </body>
 </html>
