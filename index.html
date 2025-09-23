@@ -2735,6 +2735,22 @@ window.MathJax = {
   const $ = (id) => document.getElementById(id);
   const fmt = (n) => String(n).padStart(2,'0');
 
+  // --- START: ส่วนที่แก้ไข ---
+
+  // 1. สร้างรายการรหัสผ่านที่อนุญาต (คุณสามารถเปลี่ยนรหัสผ่านในนี้ได้)
+  const validPasswords = [
+    "79307", "46516", "53388", "67987", "75187",
+    "93908", "27866", "72116", "55050", "16905",
+    "45325", "75946", "21732", "87470", "79385",
+    "47276", "26863", "1859", "Sierra-Tutor-Bot", "Tango-D0wn-Load",
+    "Uniform-V!ctory", "Victor-is-C00l", "Whiskey-G0-G0", "Xray-Sc@nner-X", "Yankee-Doodl3",
+    "Zulu-M@ster-Key", "MGP-Test-User", "BD-Math-Practice", "NMR-Exam-Access", "A-Level-Ready!",
+    "Math-Test-2025", "Password12345", "Panachai-Test-01", "WelcomeToTheTest", "LetMeInPlease!"
+  ];
+
+  // --- END: ส่วนที่แก้ไข ---
+
+
   function getBank(){
     try{
       const txt = document.getElementById('bank')?.textContent ?? '[]';
@@ -2751,7 +2767,9 @@ window.MathJax = {
         ansInput=$('answerInput'), btnSubmit=$('btn-submit'),
         btnRand=$('btn-rand'), btnFinish=$('btn-finish'), btnReset=$('btn-reset'),
         savedMsg=$('savedMsg'), scoreWrap=$('scoreWrap'),
-        loginScreen=$('loginScreen'), quizApp=$('quizApp'), btnLogin=$('btnLogin'), pwd=$('pwd');
+        loginScreen=$('loginScreen'), quizApp=$('quizApp'), btnLogin=$('btnLogin'),
+        pwdInput=$('pwd'), // *** แก้ไขชื่อตัวแปรตรงนี้แล้ว ***
+        msg=$('msg');
 
   // Data
   const ALL = getBank().filter(q => q && (q.statementHtml||q.statement||q.html));
@@ -2841,13 +2859,41 @@ window.MathJax = {
   btnFinish?.addEventListener('click', ()=>finishSession(false));
   btnReset?.addEventListener('click', ()=>{ if(tHandle){clearInterval(tHandle); tHandle=null;} timer=90*60; renderTimer(); seq=[]; idx=-1; started=false; answered=0; qBox.textContent='คลิก “สุ่มโจทย์” เพื่อเริ่ม'; savedMsg.textContent=''; scoreWrap.style.display='none'; metaId.textContent='—'; metaStatus.textContent='ตอบแล้ว 0 ข้อ'; metaQueue.textContent=`ในคลัง ${Math.min(MAX_Q,ALL.length)} ข้อ`; prog.value=0; prog.max=Math.min(MAX_Q,ALL.length)||1; progText.textContent=`0/${Math.min(MAX_Q,ALL.length)}`; btnRand.textContent='สุ่มโจทย์'; });
   btnRand?.addEventListener('click', ()=>{ if(!started) initSession(); else nextQuestion(); });
-  btnLogin?.addEventListener('click', ()=>{ loginScreen.style.display='none'; loginScreen.setAttribute('aria-hidden','true'); quizApp.style.display='block'; metaStatus.textContent='ตอบแล้ว 0 ข้อ'; metaQueue.textContent=`ในคลัง ${Math.min(MAX_Q,ALL.length)} ข้อ`; prog.max=Math.min(MAX_Q,ALL.length)||1; prog.value=0; progText.textContent=`0/${Math.min(MAX_Q,ALL.length)}`; renderTimer(); });
-  document.getElementById('pwd')?.addEventListener('keydown', (e)=>{ if(e.key==='Enter') btnLogin.click(); });
+
+  // --- START: ส่วนที่แก้ไข ---
+
+  // 2. แก้ไขฟังก์ชันของปุ่มล็อกอิน
+  btnLogin?.addEventListener('click', ()=>{
+    const enteredPassword = pwdInput.value;
+    // ตรวจสอบว่ารหัสผ่านที่ป้อนเข้ามาอยู่ในรายการที่อนุญาตหรือไม่
+    if (validPasswords.includes(enteredPassword)) {
+      // ถ้ารหัสผ่านถูกต้อง
+      msg.textContent = ''; // ล้างข้อความเตือน (ถ้ามี)
+      loginScreen.style.display='none';
+      loginScreen.setAttribute('aria-hidden','true');
+      quizApp.style.display='block';
+      metaStatus.textContent='ตอบแล้ว 0 ข้อ';
+      metaQueue.textContent=`ในคลัง ${Math.min(MAX_Q,ALL.length)} ข้อ`;
+      prog.max=Math.min(MAX_Q,ALL.length)||1;
+      prog.value=0;
+      progText.textContent=`0/${Math.min(MAX_Q,ALL.length)}`;
+      renderTimer();
+    } else {
+      // ถ้ารหัสผ่านไม่ถูกต้อง
+      msg.textContent = 'รหัสผ่านไม่ถูกต้อง';
+    }
+  });
+  // ทำให้สามารถกด Enter ที่ช่องรหัสผ่านเพื่อล็อกอินได้
+  pwdInput?.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter') btnLogin.click();
+  });
+
+  // --- END: ส่วนที่แก้ไข ---
+
 
   // Initial badges if app already visible
   if (quizApp && quizApp.style.display !== 'none') {
     metaStatus.textContent='ตอบแล้ว 0 ข้อ'; metaQueue.textContent=`ในคลัง ${Math.min(MAX_Q,ALL.length)} ข้อ`; prog.max=Math.min(MAX_Q,ALL.length)||1; prog.value=0; progText.textContent=`0/${Math.min(MAX_Q,ALL.length)}`; renderTimer();
   }
 })();
-</script></body>
-</html>
+</script>
