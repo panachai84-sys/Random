@@ -1051,6 +1051,853 @@ window.MathJax = {
       "36"
     ],
     "tolerance": 1e-06
+  },
+  {
+    "id": 101,
+    "statementHtml": "กำหนดให้ $P$ แทน ประพจน์ “ถ้า $A\\cup C\\subset B\\cup C$ แล้ว $A\\subset B$ เมื่อ $A, B$ และ $C$ เป็นเซตใดๆ\" และให้ $Q$ แทน ประพจน์ \"ถ้า $C\\subset A\\cup B$ แล้ว $C\\subset A$ และ $C\\subset B$ เมื่อ $A, B$ และ $C$ เป็นเซตใดๆ\" พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ประพจน์ $[(P\\vee Q)\\wedge\\sim Q]\\Leftrightarrow P$ มีค่าความจริงเป็น จริง</dd><dt>(ข)</dt><dd>ประพจน์ $(P\\Rightarrow Q)\\Rightarrow(\\sim P\\wedge\\sim Q)$ มีค่าความจริงเป็น เท็จ</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 102,
+    "statementHtml": "กำหนดให้ $U$ เป็นเอกภพสัมพัทธ์ และให้ $A, B$ และ $C$ เป็นเซตใดๆใน $U$ <br>พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$A-[(A\\cap B)\\cap(A\\cup B\\cup C)]=A-B$</dd><dt>(ข)</dt><dd>เพาเวอร์เซตของเซต $A-(B\\cup C)$ เท่ากับเพาเวอร์เซตของเซต $(A-B)-C$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 103,
+    "statementHtml": "กำหนดให้ $P(x)$ แทน $\\displaystyle\\left|\\frac{x-2}{x+2}\\right|<2$ และให้ $Q(x)$ แทน $|2x+1|>x-1$ <br>เอกภพสัมพัทธ์ในข้อใดต่อไปนี้ที่ทำให้ $\\forall x[Q(x)]\\Rightarrow\\exists x[P(x)]$ มีค่าความจริงเป็นเท็จ<ol type=\"1\"><li>$(-\\infty,-4)$</li><li>$(-5,-1)$</li><li>$(-3,2)$</li><li>$(-1,\\infty)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 104,
+    "statementHtml": "กำหนดให้ $R$ แทนเซตของจำนวนจริง ให้ $A=\\{x\\in R||2x-5|+|x|\\le7\\}$ <br>และ $B=\\{x\\in R|x^{2}<12+|x|\\}$ <br>พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$A\\cap B\\subset\\{x\\in R|1\\le x<4\\}$</dd><dt>(ข)</dt><dd>$A-B$ เป็นเซตจำกัด (finite set)</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 105,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง กำหนดให้ $r=\\{(x,y)\\in R\\times R|\\sqrt{12-|x|}+\\sqrt{y+1}=3\\}$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$D_{r}\\cap R_{r} \\subset [-1,8)$</dd><dt>(ข)</dt><dd>$D_{r}-R_{r}=\\{x\\in R|8<x\\le12\\}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 106,
+    "statementHtml": "ให้ $A$ และ $B$ เป็นเซต โดยที่จำนวนสมาชิกของเซต $A$ และ $B$ เท่ากับ $4$ และ $5$ ตามลำดับ <br>และจำนวนสมาชิกของเซต $A \\cup B$ เท่ากับ $7$ <br>พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ความสัมพันธ์ใน $A\\cap B$ มี $4$ ความสัมพันธ์</dd><dt>(ข)</dt><dd>ความสัมพันธ์จาก $A-B$ ไป $B-A$ มี $64$ ความสัมพันธ์</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 107,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ความสัมพันธ์ $\\{(x,y)\\in R\\times R|x^{2}+y^{2}=4,xy>0\\}$ เป็นฟังก์ชัน</dd><dt>(ข)</dt><dd>ถ้า $f(x)=\\begin{cases}x-2 & ,x\\le0\\\\ x^{2} & ,x>0\\end{cases}$ และ $g(3x-1)=2x^{2}+3x$ สำหรับ $x\\in R$ <br>แล้วค่าของ $(g\\circ f^{-1})(25)=14$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 108,
+    "statementHtml": "ให้พาราโบลา $P$ มีสมการเป็น $y^{2}-2y+6x+4=0$ ถ้าวงกลมวงหนึ่งผ่านจุดโฟกัสของพาราโบลา $P$ และสัมผัสกับเส้นตรง $3x-2y-6=0$ ณ จุด $(4, 3)$ แล้วสมการของวงกลมตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$7x^{2}+7y^{2}-4x-82y-55=0$</li><li>$7x^{2}+7y^{2}+4x+82y+55=0$</li><li>$7x^{2}+7y^{2}-4x+82y-55=0$</li><li>$7x^{2}+7y^{2}+4x-82y+55=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 109,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$\\displaystyle\\frac{\\cos 10^{\\circ}-\\sin 10^{\\circ}}{\\cos 10^{\\circ}+\\sin 10^{\\circ}}=\\sec 20^{\\circ}-\\tan 20^{\\circ}$</dd><dt>(ข)</dt><dd>$\\sqrt{3}\\cot 20^{\\circ}=1+4\\cos 20^{\\circ}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 110,
+    "statementHtml": "ถ้า $x$ เป็นจำนวนจริงที่มากสุด โดยที่ $0<x<1$ และสอดคล้องกับ<br> $\\arctan(1-x) + \\arccot\\left(\\displaystyle\\frac{1}{2x}\\right) = 2 \\arcsec\\sqrt{1+2x(1-x)}$ แล้ว ค่าของ $\\cos(\\pi x)$ ตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$-1$</li><li>$0$</li><li>$\\displaystyle\\frac{1}{2}$</li><li>$\\displaystyle\\frac{\\sqrt{3}}{2}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 111,
+    "statementHtml": "กำหนดให้ $f(x) = \\begin{cases} \\displaystyle\\frac{1}{x} & , |x| < \\displaystyle\\frac{1}{2} \\\\ \\\\ \\displaystyle\\frac{1}{2}+\\displaystyle\\frac{1}{x} & , |x| \\ge \\displaystyle\\frac{1}{2} \\end{cases}$ ค่าของ $f(f(f(-\\displaystyle\\frac{1}{3})))$ ตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$-6$</li><li>$6$</li><li>$-3$</li><li>$4$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 112,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $A$ เป็นเซตคำตอบของอสมการ $\\log_{x}\\left(\\displaystyle\\frac{2}{x-1}\\right)\\ge1$ <br>แล้ว $A$ เป็นสับเซตในข้อใดต่อไปนี้<ol type=\"1\"><li>$\\{x\\in R||x^{2}+2x-3|=3-2x-x^{2}\\}$</li><li>$\\{x\\in R||2x+5|>9\\}$</li><li>$\\{x\\in R|0\\le|x+3|\\le5\\}$</li><li>$\\{x\\in R|x^{3}>3x^{2}\\}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 113,
+    "statementHtml": "กำหนดให้ $A$ และ $B$ เป็นเมทริกซ์ มีมิติ $3 \\times 3$ โดยที่ $\\det(A)=2$ และ $B=\\begin{bmatrix}1&3&2\\\\ 0&-1&x\\\\ 0&-2&y\\end{bmatrix}$<br> เมื่อ $x$ และ $y$ เป็นจำนวนจริง ถ้า $AB+3A=2I$ เมื่อ $I$ เป็นเมทริกซ์เอกลักษณ์ ที่มีมิติ $3 \\times 3$ <br>แล้ว $x+y$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$0$</li><li>$-1$</li><li>$-2$</li><li>$-2.5$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 114,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ให้เวกเตอร์ $\\overline{w}=a\\overline{i}+b\\overline{j}+c\\overline{k}$ เมื่อ $a, b$ และ $c$ เป็นจำนวนจริงและให้เวกเตอร์ $\\overline{u}=\\overline{i}+2\\overline{j}+\\overline{k}$ และ $\\overline{v}=\\overline{i}-\\overline{j}+\\overline{k}$ ถ้าเวกเตอร์ $\\overline{w}$ ตั้งฉากกับเวกเตอร์ $\\overline{u}$ และเวกเตอร์ $\\overline{v}$ แล้ว $a+b+c=1$</dd><dt>(ข)</dt><dd>ให้เวกเตอร์ $\\overline{u}=2\\overline{i}+\\overline{j}$ และ $\\overline{v}=a\\overline{i}+b\\overline{j}$ เป็นเวกเตอร์ในระนาบ ถ้า $|\\overline{v}|=\\displaystyle\\frac{3}{\\sqrt{5}}$ และ $\\overline{u}\\cdot\\overline{v}=3$ แล้วเวกเตอร์ $\\overline{u}$ ทำมุม $60^{\\circ}$ กับเวกเตอร์ $\\overline{v}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 115,
+    "statementHtml": "กำหนดให้ $ABC$ เป็นรูปสามเหลี่ยมใดๆ ถ้าด้านตรงข้ามมุม $A$ ยาว $14$ หน่วย <br>ความยาวของเส้นรอบรูปสามเหลี่ยมเท่ากับ $30$ หน่วยและ $3 \\sin B=5 \\sin C$ แล้ว $\\sin 2A$ <br>เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$-\\displaystyle\\frac{1}{2}$</li><li>$-\\displaystyle\\frac{\\sqrt{3}}{2}$</li><li>$\\displaystyle\\frac{1}{2}$</li><li>$\\displaystyle\\frac{\\sqrt{3}}{2}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 116,
+    "statementHtml": "กำหนดให้ $9x^{2}-16y^{2}-18x+64y-199=0$ เป็นสมการของไฮเพอร์โบลา <br>ถ้าพาราโบลารูปหนึ่งมีแกนสมมาตรขนานแกน $y$ ตัดแกน $x$ ที่จุด $(1,0)$ และผ่านจุดยอดทั้งสอง<br>ของไฮเพอร์โบลาที่กำหนดให้ แล้ว จุดในข้อใดต่อไปนี้ไม่อยู่บนพาราโบลา<ol type=\"1\"><li>$\\left(2,\\displaystyle\\frac{1}{8}\\right)$</li><li>$\\left(-1,\\displaystyle\\frac{1}{2}\\right)$</li><li>$\\left(3,\\displaystyle\\frac{1}{2}\\right)$</li><li>$\\left(4,\\displaystyle\\frac{1}{4}\\right)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 117,
+    "statementHtml": "กำหนดให้ $\\{a_{n}\\}$ เป็นลำดับของจำนวนจริงโดยที่ $a_{n}=\\displaystyle\\frac{1}{4+8+12+\\cdot\\cdot\\cdot+4n}$ <br>สำหรับ $n=1,2,3,...$ ผลบวกของอนุกรม $a_{1}+a_{2}+a_{3}+\\cdot\\cdot\\cdot$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle\\frac{1}{2}$</li><li>$\\displaystyle\\frac{3}{4}$</li><li>$\\displaystyle\\frac{3}{2}$</li><li>$2$</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 118,
+    "statementHtml": "ค่าของ $\\displaystyle\\lim_{x\\rightarrow\\infty}(\\sqrt{x(x-1)}-x+2)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$1$</li><li>$\\displaystyle\\frac{1}{2}$</li><li>$1.5$</li><li>$2$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 119,
+    "statementHtml": "กำหนดให้ $C$ เป็นเส้นโค้ง $y=\\displaystyle\\frac{3x^{4}-2}{x^{3}}$ เมื่อ $x>0$ และให้ $L$ เป็นเส้นตรงที่สัมผัสกับเส้นโค้ง $C$ ที่จุด $(1, 1)$ ถ้าเส้นตรง $L$ ตัดกับพาราโบลา $x(x-1)=y-1$ ที่จุด $A$ และจุด $B$ แล้วระยะห่างระหว่างจุด $A$ และจุด $B$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$4\\sqrt{82}$</li><li>$8\\sqrt{82}$</li><li>$4\\sqrt{41}$</li><li>$8\\sqrt{41}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 120,
+    "statementHtml": "กำหนดให้ $P(E)$ แทนความน่าจะเป็นของเหตุการณ์ $E$ ถ้า $A$ และ $B$ เป็นเหตุการณ์ใดๆ ในแซมเปิลสเปซ โดยที่ $P(A)=\\displaystyle\\frac{1}{2}$, $P(B')=\\displaystyle\\frac{5}{8}$ และ $P(A'\\cap B')=\\displaystyle\\frac{1}{4}$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$P(A'\\cup B)=\\displaystyle\\frac{5}{8}$</dd><dt>(ข)</dt><dd>$P(A\\cup B')=\\displaystyle\\frac{3}{4}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 121,
+    "statementHtml": "ในการโยนลูกเต๋าสองลูกจำนวนหนึ่งครั้ง ความน่าจะเป็นที่จะได้ผลคูณของแต้มบนลูกเต๋าทั้งสอง <br>หารด้วย $4$ ลงตัว เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle\\frac{6}{36}$</li><li>$\\displaystyle\\frac{11}{36}$</li><li>$\\displaystyle\\frac{15}{36}$</li><li>$\\displaystyle\\frac{27}{36}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 122,
+    "statementHtml": "ครอบครัวหนึ่งมีสมาชิก $6$ คน มีอายุเฉลี่ย $34$ ปี ส่วนเบี่ยงเบนมาตรฐานของอายุเท่ากับ $8$ ปี <br>อีก $6$ ปีต่อมามีญาติสองคนมาขออยู่อาศัยด้วย โดยที่ญาติทั้งสองคนนี้มีอายุเท่ากัน เท่ากับอายุเฉลี่ย<br>ของคนทั้ง $6$ คนในครอบครัวนี้พอดี สัมประสิทธิ์การแปรผันของอายุของคนทั้ง $8$ คนนี้เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle\\frac{\\sqrt{3}}{10}$</li><li>$\\displaystyle\\frac{10}{\\sqrt{3}}$</li><li>$\\displaystyle\\frac{\\sqrt{3}}{20}$</li><li>$\\displaystyle\\frac{20}{\\sqrt{3}}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 123,
+    "statementHtml": "กำหนดให้ข้อมูลชุดหนึ่งมีดังนี้ $2, 4, 3, 5, 12, 5, 18, 6, 4, 2, 9, 4$ ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>มัธยฐานน้อยกว่าฐานนิยม</li><li>ค่าเฉลี่ยเลขคณิตมากกว่ามัธยฐาน</li><li>ค่าเฉลี่ยเลขคณิตเท่ากับมัธยฐาน</li><li>ฐานนิยมมากกว่าค่าเฉลี่ยเลขคณิต</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 124,
+    "statementHtml": "กำหนดให้ $A=\\sqrt{7\\sqrt[3]{5}}$, $B=\\sqrt{5\\sqrt[3]{7}}$, $C=\\sqrt[3]{5\\sqrt{7}}$ และ $D=\\sqrt[3]{7\\sqrt{5}}$ ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>$D>C>A>B$</li><li>$A>C>B>D$</li><li>$A>B>D>C$</li><li>$C>A>D>B$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 125,
+    "statementHtml": "กำหนดให้ $A$ และ $B$ เป็นเซตจำกัด โดยที่ $A\\cap B\\ne\\emptyset$ สับเซตของ $A$ ที่มีสมาชิก $2$ ตัว มีทั้งหมด $10$ เซต และสับเซตของ $B$ ที่มีสมาชิก $2$ ตัว มีทั้งหมด $6$ เซต ถ้า จำนวนสมาชิกของ $P(P(A\\cap B))$ เท่ากับ $16$ เมื่อ $P(S)$ แทน เพาเวอร์เซตของ $S$ แล้ว จำนวนสมาชิกของเซต $A\\cup B$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["7"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 126,
+    "statementHtml": "ถ้า $x$ และ $y$ เป็นจำนวนจริงบวกที่สอดคล้องกับสมการ $5^{(x-2^{A})}2^{y^{A}}=(16)^{64}$ เมื่อ $A=\\displaystyle\\frac{\\log y}{\\log x}$ <br>แล้ว ค่าของ $x+y$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["20"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 127,
+    "statementHtml": "กำหนดให้ $x$ เป็นจำนวนจริง โดยที่ $\\sin x+\\cos x=\\displaystyle\\frac{4}{3}$ ถ้า $(1+\\tan^{2}x) \\cot x=\\displaystyle\\frac{a}{b}$ เมื่อ $a$ และ $b$ เป็นจำนวนเต็ม โดยที่ ห.ร.ม. ของ $a$ และ $b$ เท่ากับ $1$ แล้ว $a^{2}+b^{2}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["373"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 128,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $A=\\{x\\in R|\\log_{\\sqrt{3}}(x-1)-\\log_{\\sqrt[3]{3}}(x-1)=1\\}$ <br>และ $B=\\{x\\in R|\\sqrt{x+1}+\\sqrt{x-1}=2\\}$ แล้วสามเท่าของผลคูณของสมาชิก<br>ในเซต $A \\cup B$ ทั้งหมดเท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["5"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 129,
+    "statementHtml": "กำหนดให้ $A$ แทนเซตคำตอบของสมการ $5^{(1+\\sqrt{x^{2}-4x-1)}}+5^{\\left(\\frac{5+4x-x^{2}}{2+\\sqrt{x^{2}-4x-1}}\\right)}=126$ <br>ผลบวกของสมาชิกในเซต $A$ ทั้งหมดเท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 130,
+    "statementHtml": "กำหนดให้วงรีมีจุดศูนย์กลางอยู่ที่ $(0, 0)$ และมีโฟกัส $F_{1}$ และ $F_{2}$ อยู่บนแกน $x$ จุด $A(4,1)$ เป็นจุด<br>บนวงรีโดยที่ ผลบวกระยะทางจากจุด $A(4,1)$ ไปยังจุดโฟกัสทั้งสองมีค่าเท่ากับ $6\\sqrt{2}$ ให้เส้นตรง $L$ ตัดแกน $x$ ที่จุด $(4.5, 0)$ และสัมผัสกับวงรีที่จุด $A(4,1)$ ถ้า $d$ เป็นระยะห่างระหว่างจุด $(0, 0)$ กับเส้นตรง $L$ แล้ว ค่าของ $d^{2}|AF_{1}||AF_{2}|$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["162"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 131,
+    "statementHtml": "กำหนดให้ $0<\\theta<\\displaystyle\\frac{\\pi}{2}$ โดยที่ $\\theta=\\arctan\\left(\\displaystyle\\frac{\\sqrt{x}+1}{1-\\sqrt{x}}\\right)-\\arctan(\\sqrt{x})$ เมื่อ $0<x<1$ <br>ค่าของ $\\tan\\theta+\\cot\\theta$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 132,
+    "statementHtml": "ให้ $S$ เป็นเซตของจำนวนจริง $x$ ทั้งหมดที่ทำให้เมทริกซ์ $\\begin{bmatrix}4&-2&7\\\\ x&-1&3\\\\ 2&0&x\\end{bmatrix}$ เป็นเมทริกซ์เอกฐาน <br>และให้ $y$ เท่ากับผลบวกของสมาชิกทั้งหมดในเซต $S$ ถ้า $A=\\begin{bmatrix}y&1\\\\ -1&y\\end{bmatrix}$ แล้ว <br>ค่าของ $\\det(((A^{t})^{-1})^{t})^{-1}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 133,
+    "statementHtml": "กำหนดให้ $a_{1},a_{2},a_{3},...,a_{n},...$ เป็นลำดับเรขาคณิตของจำนวนจริงบวก โดยมี $r$ เป็นอัตราส่วนร่วม และ $\\displaystyle\\frac{a_{1}+a_{3}}{a_{2}+a_{4}}+\\displaystyle\\frac{a_{3}+a_{5}}{a_{4}+a_{6}}+\\displaystyle\\frac{a_{5}+a_{7}}{a_{6}+a_{8}}+...+\\displaystyle\\frac{a_{2011}+a_{2013}}{a_{2012}+a_{2014}}=2012$ <br>ค่าของ $1+5r+12r^{2}+22r^{3}+\\cdot\\cdot\\cdot$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["16"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 134,
+    "statementHtml": "ถ้า $z$ เป็นจำนวนเชิงซ้อนที่อยู่ในควอดรันต์ (quadrant) ที่หนึ่งบนระนาบเชิงซ้อน <br>โดยที่ $\\left|\\displaystyle\\frac{(z+1)(1+i)}{z(1+i)+5+i}\\right|=1$ และ $|z|=\\sqrt{65}$ แล้วผลบวกของส่วนจริงและส่วนจินตภาพ<br>ของ $z$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["11"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 135,
+    "statementHtml": "กำหนดให้ $a_{1}, a_{2}, a_{3}, a_{4}, a_{5}$ และ $b_{1}, b_{2}, b_{3}, b_{4}, b_{5}, b_{6}$ เป็นลำดับเลขคณิตของจำนวนจริงบวก โดยที่ $a_{1}=b_{2}$, $a_{5}=b_{5}$ และ $a_{1}\\ne a_{5}$ ถ้า $\\displaystyle\\frac{(b_{6}-b_{4})+(b_{6}-b_{1})}{a_{4}-a_{2}}=\\displaystyle\\frac{x}{y}$ เมื่อ ห.ร.ม. ของ $x$ กับ $y$ <br>เท่ากับ $1$ แล้ว $x^{2}+y^{2}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["205"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 136,
+    "statementHtml": "สำหรับ $n=2,3,4,...$ กำหนดให้ $a_{n}=1+2+3+\\cdot\\cdot\\cdot+n$ <br>ค่าของ $\\displaystyle\\lim_{n\\rightarrow\\infty}\\displaystyle\\frac{a_{2}a_{3}a_{4}...a_{n}}{(a_{2}-1)(a_{3}-1)(a_{4}-1)...(a_{n}-1)}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 137,
+    "statementHtml": "กำหนดให้ $f(x)=\\begin{cases}\\displaystyle\\frac{2x-8}{2x-\\sqrt{4x^{2}-3x+12}} & ,x<4\\\\ \\\\ \\displaystyle\\frac{k}{3}x & ,x\\ge4\\end{cases}$ <br>โดยที่ $k$ เป็นจำนวนจริง ถ้า $f$ เป็นฟังก์ชันต่อเนื่องที่จุด $x=4$ <br>แล้ว $f(k+1)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["24"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 138,
+    "statementHtml": "ให้ $f$ เป็นฟังก์ชันซึ่งมีโดเมนและเรนจ์เป็นสับเซตของจำนวนจริง โดยที่อัตราการเปลี่ยนแปลง<br>ของ $f(x)$ เทียบกับ $x$ เท่ากับ $ax^{3}+bx$ เมื่อ $a$ และ $b$ เป็นจำนวนจริง และให้ $g(x)=(x^{3}+2x)f(x)$<br> ถ้า $f'(1)=18$, $f''(0)=6$ และ $f(2)=f(1)+f(0)$ <br>แล้วค่าของ $g'(-1)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["354"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 139,
+    "statementHtml": "กำหนดให้ $f(x)$ เป็นพหุนามกำลังสาม ซึ่งมีสัมประสิทธิ์เป็นจำนวนจริง โดยที่มี $x+1$ เป็นตัวประกอบ<br>ของ $f(x)$, $5+2i$ เป็นคำตอบของสมการ $f(x)=0$ และ $f(0)=58$ ค่าของ $\\displaystyle\\int_{0}^{2}[f(x)-f(-x)]dx$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["168"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 140,
+    "statementHtml": "ต้องการนำเลขโดด $1, 1, 2, 2, 3, 3$ ทั้ง $6$ ตัวมาจัดเรียงเป็นจำนวน<br>ที่มี $6$ หลัก จะสร้างจำนวนที่มี $6$ หลักได้ทั้งหมดกี่จำนวน เมื่อ เลข $1$ ทั้งสองตัวไม่ติดกัน<br>และเลข $3$ ทั้งสองตัวไม่ติดกัน",
+    "answerType": "value",
+    "correct": ["42"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 141,
+    "statementHtml": "จังหวัดแห่งหนึ่งมีอำเภอ $6$ อำเภอ แต่ละอำเภอส่งผู้แทนอำเภอละ $2$ คนเป็นชาย $1$ คนและเป็นหญิง $1$ คน ถ้าต้องการคัดเลือกกรรมการ $4$ คน เป็นชาย $2$ คน และหญิง $2$ คน จากตัวแทนทั้ง $12$ คน โดยในบรรดากรรมการ $4$ คนนี้จะต้องเป็นชายและหญิงอย่างน้อย $1$ คู่ มาจากอำเภอเดียวกัน <br>จะมีวิธีการคัดเลือกกี่วิธี",
+    "answerType": "value",
+    "correct": ["135"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 142,
+    "statementHtml": "กำหนดให้ $\\overline{a}, \\overline{b}$ และ $\\overline{c}$ เป็นเวกเตอร์บนระนาบซึ่งกำหนดโดย $\\overline{a}=x\\overline{i}+\\displaystyle\\frac{12}{5}\\overline{j}$, $\\overline{b}=6\\overline{i}+y\\overline{j}$ และ $\\overline{c}=2\\overline{i}+\\overline{j}$ เมื่อ $x$ และ $y$ เป็นจำนวนจริง ถ้า $|\\overline{b}-\\overline{c}|=5$, เวกเตอร์ $\\overline{a}$ ตั้งฉากกับเวกเตอร์ $\\overline{b}$ และ $\\overline{a}\\cdot\\overline{c}>0$ แล้วค่าของ $|5\\overline{a}+\\overline{b}|^{2}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["200"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 143,
+    "statementHtml": "ถ้าคะแนนสอบวิชาคณิตศาสตร์ของนักเรียนห้องหนึ่งมีการแจกแจงปกติ นาย ก. และนาย ข. เป็นนักเรียน<br>ในห้องนี้ ถ้านักเรียนในห้องนี้ ร้อยละ $9.48$ สอบได้คะแนนมากกว่าคะแนนสอบของ นาย ก. มีนักเรียน<br>ร้อยละ $10.64$ สอบได้คะแนนน้อยกว่าคะแนนสอบของ นาย ข. และ นาย ข. สอบได้คะแนนน้อยกว่า<br>คะแนนสอบของนาย ก. อยู่ $51$ คะแนน แล้วส่วนเบี่ยงเบนมาตรฐานของคะแนนสอบครั้งนี้เท่ากับเท่าใด เมื่อกำหนดพื้นที่ใต้เส้นโค้งปกติ ระหว่าง $0$ ถึง $z$ ดังตารางต่อไปนี้<div align=\"center\"><table border=\"1\"><tbody><tr><td>$Z$</td><td>$0.24$</td><td>$0.27$</td><td>$1.24$</td><td>$1.31$</td></tr><tr><td>พื้นที่</td><td>$0.0948$</td><td>$0.1064$</td><td>$0.3936$</td><td>$0.4052$</td></tr></tbody></table></div>",
+    "answerType": "value",
+    "correct": ["20"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 144,
+    "statementHtml": "กำหนดให้ $R$ แทนเซตของจำนวนจริง ถ้า $f:R\\rightarrow R$ เป็นฟังก์ชัน ซึ่งสอดคล้องกับ<br> $(f\\circ f)(x)=4+x(4-f(x))$ สำหรับทุกจำนวนจริง $x$ แล้วค่าของ $f(4)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 145,
+    "statementHtml": "ให้ $A'$ แทนคอมพลีเมนต์ของเซต $A$ และ $n(A)$ แทนจำนวนสมาชิกของเซต $A$ <br>กำหนดให้ $U$ แทนเอกภพสัมพัทธ์ ถ้า $A$ และ $B$ เป็นสับเซตใน $U$ โดยที่ $n(A'\\cup B)=30$, <br>$n(A\\cup B')=18$, $n(A\\cap B)=3$ และ $n(A'-B)=8$ <br>แล้วจำนวนสมาชิกของเอกภพสัมพัทธ์ $U$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$29$</li><li>$30$</li><li>$37$</li><li>$42$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 146,
+    "statementHtml": "กำหนดให้ $a$ และ $b$ เป็นจำนวนจริง โดยที่ $ab>0$ ให้ $p$ แทนประพจน์ “ถ้า $a<b$ แล้ว $\\displaystyle\\frac{1}{a}>\\displaystyle\\frac{1}{b}$” และ $q$ แทนประพจน์ “$\\sqrt{ab}=\\sqrt{a}\\sqrt{b}$” ประพจน์ในข้อใดต่อไปนี้มีค่าความจริงเป็นจริง<ol type=\"1\"><li>$(p\\Rightarrow q)\\vee(q\\wedge\\sim p)$</li><li>$(\\sim q\\Rightarrow\\sim p)\\wedge(\\sim q\\vee p)$</li><li>$(p\\wedge\\sim q)\\wedge(q\\Rightarrow p)$</li><li>$(\\sim p\\Rightarrow q)\\Rightarrow(p\\wedge q)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 147,
+    "statementHtml": "กำหนดให้ $p, q, r$ และ $s$ เป็นประพจน์ใดๆ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ถ้าประพจน์ $(p\\vee q)\\Leftrightarrow(r\\wedge s)$ และประพจน์ $p$ มีค่าความจริงเป็นจริง <br>แล้วสรุปได้ว่าประพจน์ $s$ มีค่าความจริงเป็นจริง</dd><dt>(ข)</dt><dd>ประพจน์ $(p\\wedge q)\\Rightarrow(r\\wedge s)$ สมมูลกับ ประพจน์ $[q\\Rightarrow(p\\Rightarrow r)]\\wedge[p\\Rightarrow(q\\Rightarrow s)]$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 148,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $A=\\{x\\in R|x^{2}+\\sqrt{x^{2}-3x+4}>3x+2\\}$ <br>แล้วเซต $A$ เป็นสับเซตของข้อใดต่อไปนี้<ol type=\"1\"><li>$(-\\infty,2) \\cup (3,4)$</li><li>$(-\\infty,0) \\cup (3,\\infty)$</li><li>$(-\\infty,-1) \\cup (4,\\infty)$</li><li>$(-1,\\infty)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 149,
+    "statementHtml": "กำหนดให้ $a$ และ $b$ เป็นจำนวนจริงบวก และ $a<b$ <br>เซตคำตอบของสมการ $|x-a|-|x-b|=b-a$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\{b\\}$</li><li>$(a, b)$</li><li>$[b,\\infty)$</li><li>$\\left(\\displaystyle\\frac{a+b}{2},\\infty\\right)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 150,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $f$ เป็นฟังก์ชัน ซึ่งมีโดเมนและเรนจ์เป็นสับเซตของเซตจำนวนจริง โดยที่ $f(x)=\\displaystyle\\frac{2x^{2}+4x+4}{x+1}$ เมื่อ $x\\ne-1$ แล้วเรนจ์ของฟังก์ชัน $f$ เป็นสับเซตของข้อใดต่อไปนี้<ol type=\"1\"><li>$\\{x\\in R|x^{2}+6x-7\\ge0\\}$</li><li>$\\{x\\in R|x^{2}+3x-10\\ge0\\}$</li><li>$\\{x\\in R|x^{2}+x-12\\ge0\\}$</li><li>$\\{x\\in R|x^{2}-6x-16\\ge0\\}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 151,
+    "statementHtml": "กำหนดให้ $A=\\begin{bmatrix}1&-2\\\\ 0&-1\\end{bmatrix}$, $I=\\begin{bmatrix}1&0\\\\ 0&1\\end{bmatrix}$ และ $B$ เป็นเมทริกซ์ใดๆ มีมิติ $2\\times2$ <br>ให้ $x$ เป็นจำนวนจริงที่สอดคล้องกับ $\\det(A^{2}+xI)=0$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$\\det(A+xI)=0$</dd><dt>(ข)</dt><dd>$\\det(A^{2}+xI-B)=\\det(B^{t})$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 152,
+    "statementHtml": "กำหนดให้ $L$ เป็นเส้นตรงมีสมการเป็น $\\displaystyle\\frac{x}{a}+\\displaystyle\\frac{y}{b}=1$ เมื่อ $a, b>0$ และให้ $C_{1}$ และ $C_{2}$ เป็นวงกลม<br>สองวงที่ต่างกัน โดยที่มีรัศมีเท่ากันและวงกลมทั้งสองวงต่างสัมผัสกับเส้นตรง $L$ ที่จุดเดียวกัน <br>ถ้าวงกลม $C_{1}$ มีจุดศูนย์กลางที่จุด $(0, 0)$ แล้วสมการของวงกลม $C_{2}$ คือข้อใดต่อไปนี้<ol type=\"1\"><li>$(a^{2}+b^{2})^{2}(x^{2}+y^{2})-4ab(a^{2}+b^{2})(bx+ay)+3a^{2}b^{2}=0$</li><li>$(a^{2}+b^{2})(x^{2}+y^{2})-4ab(bx+ay)+3a^{2}b^{2}=0$</li><li>$(a^{2}+b^{2})^{2}(x^{2}+y^{2})-4ab(a^{2}+b^{2})(bx+ay)+5a^{2}b^{2}=0$</li><li>$(a^{2}+b^{2})(x^{2}+y^{2})-4ab(bx+ay)+5a^{2}b^{2}=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 153,
+    "statementHtml": "กำหนดให้ไฮเพอร์โบลารูปหนึ่งมีสมการเป็น $x^{2}-y^{2}-2x=0$ ถ้าพาราโบลามีโฟกัสเป็นจุดกึ่งกลาง<br>ของส่วนของเส้นตรงที่เชื่อมระหว่างจุดตัดของเส้นตรง $y=2x$ กับเส้นกำกับของไฮเพอร์โบลา <br>และมีเส้นไดเรกตริกซ์เป็นเส้นตรงที่ผ่านจุดยอดทั้งสองของไฮเพอร์โบลา แล้วสมการของพาราโบลา<br>คือข้อใดต่อไปนี้<ol type=\"1\"><li>$9x^{2}+12x+12y-3=0$</li><li>$9x^{2}+12x+12y+8=0$</li><li>$9x^{2}+6x-12y-3=0$</li><li>$9x^{2}+6x+12y+5=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 154,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ให้ $P(x,y)$ เป็นจุดใดๆ ในระนาบ ถ้าผลบวกของระยะทางจากจุด $P(x,y)$ ไปยังจุด $(0, -2)$ และระยะทางจากจุด $P(x,y)$ ไปยังจุด $(2, 2)$ เท่ากับ $2\\sqrt{5}$ แล้วเซตของจุด $P(x,y)$<br> คือ $\\{(x,y)|4x^{2}+5y^{2}-8x+20y-12=0\\}$</dd><dt>(ข)</dt><dd>จุด $(1, 1)$ เป็นจุดบนพาราโบลา $y=x^{2}$ อยู่ใกล้กับเส้นตรง $y=2x-4$ มากที่สุด</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 155,
+    "statementHtml": "กำหนดให้ $\\theta$ เป็นจำนวนจริงใดๆ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$16\\sin^{3}\\theta \\cos^{2}\\theta=2\\sin\\theta+\\sin 3\\theta-\\sin 5\\theta$</dd><dt>(ข)</dt><dd>$\\sin 3\\theta=(\\sin 2\\theta+\\sin\\theta)(2\\cos\\theta-1)$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 156,
+    "statementHtml": "$\\cot\\left(\\arccos\\sqrt{\\displaystyle\\frac{2}{3}}-\\arccos\\displaystyle\\frac{1+\\sqrt{6}}{2\\sqrt{3}}\\right)$ มีค่าเท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\sqrt{\\displaystyle\\frac{2}{3}}$</li><li>$\\sqrt{\\displaystyle\\frac{1}{3}}$</li><li>$\\displaystyle\\frac{1+\\sqrt{6}}{2\\sqrt{3}}$</li><li>$\\sqrt{3}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 157,
+    "statementHtml": "กำหนดให้ $\\overline{u}, \\overline{v}$ และ $\\overline{w}$ เป็นเวกเตอร์ใดๆในสามมิติ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$\\overline{u}\\cdot(\\overline{v}\\times\\overline{w})=\\overline{w}\\cdot(\\overline{u}\\times\\overline{v})$</dd><dt>(ข)</dt><dd>ถ้า $|\\overline{u}|=|\\overline{w}|$, $|\\overline{u}-\\overline{v}|=|\\overline{v}+\\overline{w}|$ และเวกเตอร์ $\\overline{u}$ ตั้งฉากกับเวกเตอร์ $\\overline{v}$ <br>แล้วเวกเตอร์ $\\overline{v}$ ตั้งฉากกับเวกเตอร์ $\\overline{w}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 158,
+    "statementHtml": "กำหนดให้ $z=x+yi$ เป็นจำนวนเชิงซ้อน เมื่อ $x$ และ $y$ เป็นจำนวนจริงที่สอดคล้อง<br>กับสมการ $x(3+5i)+y(1-i)^{3}=3+7i$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$\\text{Im}(\\overline{iz}) = -\\text{Re}(iz)$</dd><dt>(ข)</dt><dd>$\\displaystyle\\frac{1}{z}=\\displaystyle\\frac{8-6i}{7}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 159,
+    "statementHtml": "ในคนกลุ่มหนึ่งประกอบด้วยชาย $6$ คน และหญิงจำนวนหนึ่ง ความน่าจะเป็นที่เลือกกรรมการ $2$ คน เป็นชายทั้งสองเท่ากับ $\\displaystyle\\frac{1}{8}$ ความน่าจะเป็นที่จะเลือกกรรมการ $5$ คนเป็นชายไม่น้อยกว่า $3$ คน <br>เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle\\frac{171}{728}$</li><li>$\\displaystyle\\frac{22}{91}$</li><li>$\\displaystyle\\frac{175}{728}$</li><li>$\\displaystyle\\frac{43}{91}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 160,
+    "statementHtml": "ต้องการสร้างจำนวนสามหลัก โดยที่มีตัวเลข $5$ อย่างน้อย $1$ หลัก แต่ไม่มีตัวเลข $7$ ในหลักใดเลย มีจำนวนวิธีสร้างจำนวนสามหลักเท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$128$</li><li>$136$</li><li>$153$</li><li>$200$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 161,
+    "statementHtml": "ให้ $a$ และ $b$ เป็นจำนวนจริง และให้ $f(x)=\\begin{cases}x^{2}+ax+b & , x<2\\\\ \\sqrt{x-1} & , 2\\le x\\le5\\\\ ax+b & , x>5 \\end{cases}$ <br>ถ้า $f$ เป็นฟังก์ชันต่อเนื่องบนเซตของจำนวนจริง แล้ว $a-b$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$5$</li><li>$8$</li><li>$11$</li><li>$12$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 162,
+    "statementHtml": "ถ้า $\\displaystyle\\int_{-2}^{2}|x^{2}-7x+6|dx=\\displaystyle\\frac{a}{b}$ เมื่อ $a$ และ $b$ เป็นจำนวนเต็มที่ $b\\ne0$ และ ห.ร.ม. ของ $a$ และ $b$ เท่ากับ $1$ แล้วค่าของ $a+b$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$33$</li><li>$69$</li><li>$102$</li><li>$104$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 163,
+    "statementHtml": "กำหนดให้ $f(x)=\\displaystyle\\frac{4x^{3}}{x^{6}-3x^{3}+64}$ เมื่อ $x$ เป็นจำนวนจริงบวกใดๆ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$f$ เป็นฟังก์ชันเพิ่มบนช่วง $(0,3)$</dd><dt>(ข)</dt><dd>ค่าสูงสุดสัมพัทธ์ของ $f$ เท่ากับ $\\displaystyle\\frac{4}{13}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 164,
+    "statementHtml": "กำหนดให้ $a_{n}=\\sqrt{n^{2}+16n+3}-\\sqrt{n^{2}+2}$ เมื่อ $n=1,2,3,...$ ค่าของ $\\displaystyle\\lim_{n\\rightarrow\\infty}\\sqrt[3]{a_{n}}$ เท่ากับเท่าใด<ol type=\"1\"><li>$0$</li><li>$1$</li><li>$2$</li><li>$8$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 165,
+    "statementHtml": "ให้ $I$ แทนเซตของจำนวนเต็ม ถ้า $A=\\{(x,y)\\in I\\times I|xy-21=y-4x\\}$ <br>แล้วจำนวนสมาชิกของเซต $A$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$5$</li><li>$4$</li><li>$3$</li><li>$2$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 166,
+    "statementHtml": "ถ้า $x$ และ $y$ เป็นจำนวนจริงที่สอดคล้องกับสมการ $3 \\sin(x-y)=2 \\sin(x+y)$ แล้ว $(\\tan^{3}x)(\\cot^{3}y)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$8$</li><li>$27$</li><li>$64$</li><li>$125$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 167,
+    "statementHtml": "กำหนดให้ $\\{a_{n}\\}$ เป็นลำดับของจำนวนจริง โดยที่มี $a_{1}=2$ และ $a_{n}=3a_{n-1}+1$ <br>สำหรับ $n=2,3,4,...$ และกำหนดให้ $S_{n}=a_{1}+a_{2}+a_{3}+...+a_{n}$ ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>$2S_{n}=5(3^{n-1})-2n+1$</li><li>$2S_{n}=2(3^{n})+3^{n-1}-n-1$</li><li>$4S_{n}=4(3^{n})+3^{n-1}-4n-1$</li><li>$4S_{n}=5(3^{n})-2n-5$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 168,
+    "statementHtml": "กำหนดให้ $A$ และ $B$ เป็นเมทริกซ์จัตุรัสมิติเท่ากัน โดยที่ $\\det(A)\\ne0$ และ $\\det(B)\\ne0$<br> ถ้า $\\det(A^{-1}+B^{-1})\\ne0$ และ $\\det(A+B)\\ne0$ แล้ว $(A+B)^{-1}$ ตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$B^{-1}(A^{-1}+B^{-1})A^{-1}$</li><li>$B^{-1}(A^{-1}+B^{-1})^{-1}A^{-1}$</li><li>$B(A^{-1}+B^{-1})A$</li><li>$B(A^{-1}+B^{-1})^{-1}A$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 169,
+    "statementHtml": "ถ้า $x$ เป็นจำนวนจริงที่มากที่สุดที่เป็นคำตอบของสมการ $\\sqrt{14+3x-x^{2}}-\\sqrt{9+5x-x^{2}}=1$ แล้วค่าของ $\\left|\\displaystyle\\frac{4-12x^{-1}+9x^{-2}}{3x^{-2}-2x^{-1}}\\right|$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 170,
+    "statementHtml": "กำหนดให้ $A$ เป็นเซตของจำนวนเชิงซ้อนทั้งหมดที่สอดคล้องกับสมการ $3|z|^{2}-(28-i)z+4z^{2}=0$ และให้ $B=\\{|z+i||z\\in A\\}$ ผลบวกของสมาชิกทั้งหมดในเซต $B$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["5"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 171,
+    "statementHtml": "กำหนดให้ $ABC$ เป็นรูปสามเหลี่ยมใดๆ โดยที่มีความยาวของด้านตรงข้ามมุม $A$ มุม $B$ และมุม $C$ เท่ากับ $a$ หน่วย $b$ หน่วย และ $c$ หน่วย ตามลำดับ ถ้ามุม $A$ มีขนาดมากกว่า $90^{\\circ}$ มุม $B$ มีขนาด $45^{\\circ}$ และ $\\sqrt{2}c=(\\sqrt{3}-1)a$ แล้ว $\\cos^{2}(A-B-C)+\\cos^{2}B+\\cos^{2}C$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 172,
+    "statementHtml": "กำหนดให้ $A$ แทนเซตคำตอบของสมการ $\\log_{3}(3^{(2x^{2}+2x)}+9)=x^{2}+x+\\displaystyle\\frac{1}{\\log 3}$ <br>และให้ $B=\\{x^{2}|x\\in A\\}$ ผลบวกของสมาชิกทั้งหมดในเซต $B$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["5"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 173,
+    "statementHtml": "ให้ $A$ แทนเซตคำตอบของจำนวนจริง $x\\in[0,2\\pi)$ ทั้งหมดที่สอดคล้องกับสมการ<br> $2^{(1+3 \\sin x)}-5\\cdot2^{2 \\sin x}+2^{(2+\\sin x)}=1$ จำนวนสมาชิกของเซต $A$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 174,
+    "statementHtml": "กำหนดให้ $\\sin\\theta-\\sin 2\\theta+\\sin 3\\theta=0$ โดยที่ $0<\\theta<\\displaystyle\\frac{\\pi}{2}$ ถ้า $a=\\displaystyle\\frac{\\tan\\theta-\\tan 2\\theta}{\\cos\\theta-\\cos 2\\theta}$<br> และ $b=\\displaystyle\\frac{\\sin 3\\theta+\\sin 4\\theta+\\sin 5\\theta}{\\cos 3\\theta+\\cos 4\\theta+\\cos 5\\theta}$ แล้วค่าของ $a^{4}+b^{4}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["153"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 175,
+    "statementHtml": "กำหนดให้ $a_{n}=\\displaystyle\\sum_{k=1}^{n}\\displaystyle\\frac{k}{2^{k}}$ เมื่อ $n=1,2,3,...$ ค่าของ $\\displaystyle\\lim_{n\\rightarrow \\infty}\\displaystyle\\frac{2^{n}(6-3a_{n})}{\\sqrt{n^{2}+5n+1}}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 176,
+    "statementHtml": "กำหนดให้ $f(x)=x^{2}+ax+b$ เมื่อ $a$ และ $b$ เป็นจำนวนจริง ถ้า $f(1)=2$ และ $(f\\circ f)(0)=10$ แล้วค่าของ $\\displaystyle\\int_{-1}^{2}f(x)dx$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["12"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 177,
+    "statementHtml": "ข้อมูลชุดหนึ่งเรียงจากน้อยไปหามาก ดังนี้ $a, 3, 5, 7, b$ ถ้าข้อมูลชุดนี้มีค่าเฉลี่ยเลขคณิตเท่ากับ $7$ <br>และ ส่วนเบี่ยงเบนมาตรฐานเท่ากับ $2\\sqrt{10}$ แล้วค่าของ $2a+b$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["21"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 178,
+    "statementHtml": "คะแนนสอบวิชาคณิตศาสตร์และวิชาภาษาอังกฤษของนักเรียนกลุ่มหนึ่งมีการแจกแจงปกติ <br>ค่าเฉลี่ยเลขคณิตและความแปรปรวนของคะแนนแต่ละวิชามีดังนี้<div align=\"center\"><table border=\"1\"><tbody><tr><td><b>วิชา</b></td><td><b>ค่าเฉลี่ยเลขคณิต (คะแนน)</b></td><td><b>ความแปรปรวน (คะแนน)</b></td></tr><tr><td>วิชาคณิตศาสตร์</td><td align=\"center\">$63$</td><td align=\"center\">$25$</td></tr><tr><td>วิชาภาษาอังกฤษ</td><td align=\"center\">$72$</td><td align=\"center\">$9$</td></tr></tbody></table></div>ถ้านักเรียนคนหนึ่งในกลุ่มนี้สอบทั้งสองวิชาได้คะแนนเท่ากัน พบว่าคะแนนสอบวิชาคณิตศาสตร์<br>ของเขาเป็นตำแหน่งเปอร์เซ็นไทล์ที่ $88.49$ คะแนนสอบวิชาภาษาอังกฤษเป็นตำแหน่งเปอร์เซ็นไทล์<br>เท่ากับเท่าใด เมื่อกำหนดพื้นที่ใต้เส้นโค้งปกติ ระหว่าง $0$ ถึง $z$ ดังตารางต่อไปนี้<div align=\"center\"><table border=\"1\"><tbody><tr><td>$Z$</td><td>$0.9$</td><td>$1.0$</td><td>$1.1$</td><td>$1.2$</td><td>$1.3$</td></tr><tr><td>พื้นที่</td><td>$0.3159$</td><td>$0.3413$</td><td>$0.3643$</td><td>$0.3849$</td><td>$0.4032$</td></tr></tbody></table></div>",
+    "answerType": "value",
+    "correct": ["15.87"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 179,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $f:\\mathbb{R}\\rightarrow\\mathbb{R}$ เป็นฟังก์ชันซึ่ง $f''(x)=3+6x$ สำหรับทุกจำนวนจริง $x$ และความชันของเส้นสัมผัสโค้ง $y=f(x)$ ณ จุด $(2,22)$ เท่ากับ $20$ แล้วค่าของ $\\displaystyle\\lim_{x\\rightarrow4}f(x)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["100"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 180,
+    "statementHtml": "กำหนดให้ $f(x)=x^{3}+ax^{2}+bx+3$ และ $g(x)=bx^{2}+3x+a$ เมื่อ $a$ และ $b$ เป็นจำนวนจริง <br>ถ้า $f(3)=0$ และ $x-2$ หาร $f(x)$ มีเศษเหลือเท่ากับ $5$ แล้วค่าของ $(g\\circ f)(1)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["721"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 181,
+    "statementHtml": "ในกล่องใบหนึ่งบรรจุลูกบอลสีขาว ลูกบอลสีแดง และลูกบอลสีเหลือง โดยที่จำนวนลูกบอลสีขาว<br>มีจำนวนไม่น้อยกว่าจำนวนลูกบอลสีแดง แต่ไม่มากกว่าหนึ่งในสามเท่าของจำนวนลูกบอลสีเหลือง <br>และผลรวมของจำนวนลูกบอลสีขาวและสีแดงไม่น้อยกว่า $76$ ลูก อยากทราบว่าผลรวมของ<br>จำนวนลูกบอลสีขาวและลูกบอลสีเหลืองมีอย่างน้อยกี่ลูก",
+    "answerType": "value",
+    "correct": ["152"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 182,
+    "statementHtml": "สำหรับเซต $S$ ใดๆ ให้ $n(S)$ แทนจำนวนสมาชิกของเซต $S$ กำหนดให้ $U$ แทนเอกภพสัมพัทธ์ <br>ถ้า $A, B$ และ $C$ เป็นสับเซตใน $U$ โดยที่ $n(A)=2(n(B))=3(n(C))$, $n(A\\cup B\\cup C)=15$, $n(A\\cap B\\cap C)=2$ ถ้า $n(A-B)=8$, $n(B-C)=4$ และ $n(A-C)=9$ แล้ว $n((A\\cup B)-C)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$13$</li><li>$12$</li><li>$11$</li><li>$10$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 183,
+    "statementHtml": "กำหนดให้เอกภพสัมพัทธ์คือเซตของจำนวนจริงบวก พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ประพจน์ $\\forall x[|x^{2}-5x+4|<x^{2}+6x+5]$ มีค่าความจริงเป็นจริง</dd><dt>(ข)</dt><dd>ประพจน์ $\\forall x[|x^{2}-1|\\ge2x-2]$ มีค่าความจริงเป็นเท็จ</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 184,
+    "statementHtml": "กำหนดให้ $p,q,r,s$ และ $t$ เป็นประพจน์ ซึ่ง $p\\rightarrow(q\\wedge r)$ มีค่าความจริงเป็น เท็จ และ $p\\leftrightarrow(s\\vee t)$ มีค่าความจริงเป็น จริง ประพจน์ในข้อใดต่อไปนี้มีค่าความจริงเป็น จริง<ol type=\"1\"><li>$(q\\wedge s)\\rightarrow(p\\wedge q)$</li><li>$(s\\wedge t)\\rightarrow\\sim q$</li><li>$(q\\vee s)\\leftrightarrow p$</li><li>$(p\\rightarrow r)\\rightarrow s$</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 185,
+    "statementHtml": "ถ้า $A$ แทนเซตคำตอบของสมการ $|2-2x|+|x+2|=4-x$ แล้ว เซต $A$ เป็นสับเซตของข้อใดต่อไปนี้<ol type=\"1\"><li>$(-4,0)$</li><li>$(-1,1)$</li><li>$(0,4)$</li><li>$(-3, 2)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 186,
+    "statementHtml": "ให้ $A$ แทนเซตของจำนวนจริง $x$ ทั้งหมดที่สอดคล้องกับสมการ <br>$\\displaystyle\\frac{4x}{4x^{2}-8x+7}+\\displaystyle\\frac{3x}{4x^{2}-10x+7}=1$ <br>และให้ $B$ แทนเซตของจำนวนจริง $x$ ทั้งหมดที่สอดคล้องกับอสมการ<br> $|x^{2}-2x|+x^{2}>4$ <br>พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$A\\subset B$</dd><dt>(ข)</dt><dd>จำนวนสมาชิกของเพาเวอร์เซตของเซต $A\\cap B$ เท่ากับ $2$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 187,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $f:R\\rightarrow R$ และ $g:R\\rightarrow R$ เป็นฟังก์ชันหนึ่งต่อหนึ่ง โดยที่ $(f\\circ g)(x)=4x-5$ และ $g^{-1}(x)=2x+1$ สำหรับทุกจำนวนจริง $x$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$4(f^{-1}\\circ g)(2x+1)=g(x)+1$ สำหรับทุกจำนวนจริง $x$</dd><dt>(ข)</dt><dd>$(g^{-1}\\circ(f^{-1}\\circ g))(x)=f^{-1}(x)+1$ สำหรับทุกจำนวนจริง $x$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 188,
+    "statementHtml": "กำหนดให้ $A=\\begin{bmatrix}1&a\\\\ b&4\\end{bmatrix}$, $I=\\begin{bmatrix}1&0\\\\ 0&1\\end{bmatrix}$ เมื่อ $a$ และ $b$ เป็นจำนวนจริงที่ $ab\\ne0$ และเมทริกซ์ $A$ สอดคล้องกับสมการ $2(A-I)^{-1}=4I-A$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$ab=2$</dd><dt>(ข)</dt><dd>$\\det(3A^{2}A^{t}A^{-1})=324$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 189,
+    "statementHtml": "ให้ $F$ เป็นโฟกัสของพาราโบลา $4y=x^{2}-6x+13$ ถ้าไฮเพอร์โบลารูปหนึ่งมีสมบัติดังนี้<dl><dt>(ก)</dt><dd>แกนตามขวางขนานแกน $y$</dd><dt>(ข)</dt><dd>จุดศูนย์กลางของไฮเพอร์โบลาอยู่ที่ $F$</dd><dt>(ค)</dt><dd>โฟกัสหนึ่งของไฮเพอร์โบลา คือ $(3,2+2\\sqrt{13})$</dd><dt>(ง)</dt><dd>แกนสังยุคยาว $12$ หน่วย</dd></dl>แล้วไฮเพอร์โบลารูปนี้มีสมการตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$4x^{2}-9y^{2}-24x+36y+144=0$</li><li>$4x^{2}-9y^{2}-24x+36y-36=0$</li><li>$9y^{2}-4x^{2}+24x+36y-144=0$</li><li>$9y^{2}-4x^{2}+24x+36y+36=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 190,
+    "statementHtml": "กำหนดให้วงรีรูปหนึ่งมีสมการเป็น $x^{2}+Ay^{2}+Bx+Cy-92=0$ โดยที่มีจุดศูนย์กลางอยู่ที่ $(2,1)$ และแกนเอกยาวเป็น $2$ เท่าของแกนโท ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>$A+B+C=0$</li><li>ความเยื้องศูนย์กลางของวงรีเท่ากับ $\\displaystyle\\frac{\\sqrt{3}}{5}$</li><li>วงรีมีจุดศูนย์กลางร่วมกับจุดศูนย์กลางของวงกลม $x^{2}+y^{2}-4x-2y-20=0$ <br>และแกนเอกยาวเท่ากับรัศมีของวงกลม</li><li>ผลบวกของระยะทางจากจุด $(2, 6)$ ไปยังโฟกัสทั้งสองของวงรีเท่ากับ $20$ หน่วย</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 191,
+    "statementHtml": "ให้ $A$ เป็นจุดตัดของเส้นตรง $x-3y+1=0$ และ $2x+5y-9=0$ ถ้าเส้นตรง $L$ มีความชันเท่ากับ $m$ เมื่อ $m<0$ มีระยะห่างจากจุดกำเนิด $(0,0)$ เท่ากับ $k$ หน่วย โดยที่ $k^{2}+2m=1$ และผ่านจุด $A$ แล้วสมการของเส้นตรง $L$ ตรงกับข้อใดต่อไปนี้<ol type=\"1\"><li>$2x+y-5=0$</li><li>$3x+y-7=0$</li><li>$x+2y-4=0$</li><li>$x+3y-5=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 192,
+    "statementHtml": "กำหนดให้ $ABC$ เป็นรูปสามเหลี่ยม โดยที่มีความยาวของด้านตรงข้ามมุม $A$ มุม $B$ มุม $C$ เท่ากับ $a$ หน่วย $b$ หน่วย และ $c$ หน่วย ตามลำดับ และมุม $A$ มีขนาดเป็นสองเท่าของมุม $B$ ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>$c^{2}=a^{2}+ab$</li><li>$c^{2}=b^{2}+ab$</li><li>$a^{2}=b^{2}+bc$</li><li>$a^{2}=c^{2}+bc$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 193,
+    "statementHtml": "กำหนดให้ $0<\\theta<15^{\\circ}$ ค่าของ $y=\\arctan\\left(\\displaystyle\\frac{3\\cos\\theta}{1-3\\sin\\theta}\\right)-\\arccot\\left(\\displaystyle\\frac{\\cos\\theta}{3-\\sin\\theta}\\right)$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\arctan(\\cot\\theta)$</li><li>$\\arctan(\\tan\\theta)$</li><li>$\\arctan(\\sin\\theta)$</li><li>$\\arctan(\\cos\\theta)$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 194,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ถ้า $A$ และ $B$ เป็นจำนวนจริง สอดคล้องกับสมการ $\\sin^{2}B=\\sin A\\cos A$ <br>แล้ว $\\cos 2B=2\\cos^{2}(45^{\\circ}+A)$</dd><dt>(ข)</dt><dd>ถ้า $0\\le A, B\\le\\displaystyle\\frac{\\pi}{2}$ สอดคล้องกับ $\\sin A=\\sqrt{2}\\sin B$ และ $\\sqrt{3}\\sec B=\\sqrt{2}\\sec A$ <br>แล้ว $\\sin 10A+\\cos 10B=0.5$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 195,
+    "statementHtml": "กำหนดให้ $\\overline{a}, \\overline{b}$ และ $\\overline{c}$ เป็นเวกเตอร์ ซึ่ง $\\overline{a}+\\overline{b}+\\overline{c}=\\overline{0}$, $|\\overline{a}+\\overline{b}|=5$, $|\\overline{b}+\\overline{c}|=3$ และ $|\\overline{b}|=\\sqrt{10}$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ถ้าเวกเตอร์ $\\overline{a}$ ทำมุม $\\theta$ กับเวกเตอร์ $\\overline{b}$ เมื่อ $0\\le\\theta\\le\\pi$ แล้ว $\\tan\\theta=3$</dd><dt>(ข)</dt><dd>$\\overline{a}\\cdot\\overline{c}=-12$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 196,
+    "statementHtml": "จากตัวเลข $1,2,3,...,9$ นำมาสร้างจำนวนห้าหลักใช้เลขซ้ำกันได้ ความน่าจะเป็นที่จะได้<br>จำนวนห้าหลักโดยที่ในแต่ละหลักเป็นตัวเลขที่แตกต่างกันเพียง $3$ จำนวนเท่านั้น มีค่าเท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$\\displaystyle\\frac{280}{2187}$</li><li>$\\displaystyle\\frac{560}{2187}$</li><li>$\\displaystyle\\frac{1400}{6561}$</li><li>$\\displaystyle\\frac{5040}{6561}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 197,
+    "statementHtml": "มีเก้าอี้สีขาวเหมือนกัน $3$ ตัว และเก้าอี้สีแดงเหมือนกัน $3$ ตัว นำมาจัดเรียงรอบโต๊ะกลม <br>จำนวนวิธีเรียงสับเปลี่ยนที่แตกต่างกันทั้งหมดเท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$4$ วิธี</li><li>$6$ วิธี</li><li>$10$ วิธี</li><li>$20$ วิธี</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 198,
+    "statementHtml": "กำหนดให้ $f$ เป็นฟังก์ชัน นิยามโดย $f(x)=\\begin{cases}-x+a & , x\\le-2\\\\ -\\displaystyle\\frac{2}{5}x+b & , -2<x<3\\\\ x^{2}-6x+11 & , x\\ge3 \\end{cases}$ <br>เมื่อ $a, b$ เป็นจำนวนจริง ถ้าฟังก์ชัน $f$ มีความต่อเนื่องที่ $x=-2$ และ $\\displaystyle\\lim_{x\\rightarrow3}f(x)$ หาค่าได้<br> แล้วค่าของ $|a+5b|$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$8$</li><li>$18$</li><li>$\\displaystyle\\frac{88}{5}$</li><li>$\\displaystyle\\frac{102}{5}$</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 199,
+    "statementHtml": "กำหนดให้ $b>1$ และ $\\displaystyle\\int_{1}^{b}\\displaystyle\\frac{x-1}{x+\\sqrt{x}}dx=4$ ค่าของ $1+b+b^{2}$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$21$</li><li>$31$</li><li>$91$</li><li>$111$</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 200,
+    "statementHtml": "กำหนดให้ $f(x)=ax^{2}+bx+c$ เป็นพหุนามกำลังสอง เมื่อ $a, b, c$ เป็นจำนวนจริง และ $a\\ne0$ โดยที่ $f(1)=0$ และ $f$ มีค่าสูงสุดที่ $x=\\displaystyle\\frac{1}{3}$ ให้ $F(\\alpha,\\beta)=\\displaystyle\\int_{\\alpha}^{\\beta}f(x)dx$ โดยที่ $F(0,t)=F(1,t)+1$ สำหรับจำนวนจริง $t>1$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$F(1,2)=F(2,3)+10$</dd><dt>(ข)</dt><dd>อนุพันธ์ของ $\\displaystyle\\frac{f(x)}{x^{2}}$ เท่ากับ $\\displaystyle\\frac{-3x^{2}-2x-2}{x^{3}}$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 201,
+    "statementHtml": "กำหนดให้ $a_{n}=\\displaystyle\\frac{n^{2}}{16n^{2}-4}$ เมื่อ $n=1,2,3,...$ ถ้า $\\displaystyle\\lim_{n\\rightarrow\\infty}\\displaystyle\\frac{a_{1}+a_{2}+a_{3}+...+a_{n}}{n}=\\displaystyle\\frac{a}{b}$ <br>โดยที่ $a$ และ $b$ เป็นจำนวนเต็มบวก ซึ่ง ห.ร.ม. ของ $a$ และ $b$ เท่ากับ $1$ แล้ว $a^{2}+b^{2}$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$17$</li><li>$25$</li><li>$145$</li><li>$257$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 202,
+    "statementHtml": "กำหนดให้ $z$ เป็นจำนวนเชิงซ้อนที่สอดคล้องกับสมการ $\\overline{z}-1-4i=3i(z-i)$ ข้อใดต่อไปนี้ไม่ถูกต้อง<ol type=\"1\"><li>$z+\\overline{z}=i(z-\\overline{z})$</li><li>$|z+2|=2$</li><li>$\\overline{z}^{2}-8i=0$</li><li>$z(1-i)^{3}-8i=0$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 203,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ถ้า $x$ เป็นจำนวนจริงที่สอดคล้องกับสมการ $\\log_{2}x+\\log_{4}x+\\log_{8}x+\\log_{16}x-2\\log_{64}x=7$ แล้ว $x$ สอดคล้องกับสมการ $x-3\\sqrt{x}=4$</dd><dt>(ข)</dt><dd>ถ้า $a, b$ และ $c$ เป็นจำนวนจริงที่สอดคล้องกับ $(1-a)\\log_{3}2=2-\\log_{3}5$, <br>$(3+b)\\log_{5}2=2-\\log_{5}3$ และ $(3+c)\\log_{7}2=4\\log_{7}3-\\log_{7}5$ <br>แล้ว $2a+b-c=2+5\\log_{2}5-9\\log_{2}3$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["1"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 204,
+    "statementHtml": "คะแนนสอบของนักเรียนห้องหนึ่งมีการแจกแจงปกติ คะแนนเต็ม $100$ คะแนน มัธยฐานเท่ากับ $45$ คะแนน และมีนักเรียนร้อยละ $34.13$ ที่สอบได้คะแนนระหว่างมัธยฐานกับ $54$ คะแนน <br>ถ้านักเรียนคนหนึ่งมีคะแนนสอบเป็น $\\displaystyle\\frac{5}{3}$ เท่าของคะแนนเปอร์เซ็นไทล์ที่ $33$ แล้วนักเรียนคนนี้<br>สอบได้คะแนนเท่ากับข้อใดต่อไปนี้ เมื่อกำหนดพื้นที่ใต้เส้นโค้งปกติ ระหว่าง $0$ ถึง $z$ ดังตารางต่อไปนี้<div align=\"center\"><table border=\"1\"><tbody><tr><td>$Z$</td><td>$0.33$</td><td>$0.36$</td><td>$0.41$</td><td>$0.44$</td><td>$0.50$</td><td>$1.0$</td></tr><tr><td>พื้นที่</td><td>$0.1293$</td><td>$0.1406$</td><td>$0.1591$</td><td>$0.1700$</td><td>$0.1915$</td><td>$0.3413$</td></tr></tbody></table></div><ol type=\"1\"><li>$41.04$ คะแนน</li><li>$48.96$ คะแนน</li><li>$68.40$ คะแนน</li><li>$81.60$ คะแนน</li></ol>",
+    "answerType": "choice",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 205,
+    "statementHtml": "กำหนดเวกเตอร์ $\\overline{u}=a\\overline{i}+2\\overline{j}+b\\overline{k}$ เมื่อ $a$ และ $b$ เป็นจำนวนจริง ถ้า $|\\overline{u}\\times\\overline{j}|=2$ แล้ว $|\\overline{u}|^{2}$ เท่ากับข้อใดต่อไปนี้<ol type=\"1\"><li>$5$</li><li>$6$</li><li>$7$</li><li>$8$</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 206,
+    "statementHtml": "พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>ถ้า $A=\\begin{bmatrix}0&0&a\\\\ b&0&0\\\\ 0&c&0\\end{bmatrix}$ เมื่อ $a, b, c$ เป็นจำนวนจริงบวกที่ $abc=1$ และ $I$ เป็นเมทริกซ์เอกลักษณ์การคูณ มิติ $3\\times3$ แล้ว $\\det(A^{2}+A+I)=0$</dd><dt>(ข)</dt><dd>ให้ $A=\\begin{bmatrix}a_{1}&a_{2}&a_{3}\\\\ b_{1}&b_{2}&b_{3}\\\\ c_{1}&c_{2}&c_{3}\\end{bmatrix}$ และ $B=\\begin{bmatrix}a_1+2b_1-3c_1 & a_2+2b_2-3c_2 & a_3+2b_3-3c_3\\\\ 2b_1 & 2b_2 & 2b_3 \\\\ 3c_1 & 3c_2 & 3c_3 \\end{bmatrix}$ เมื่อ $a_{i}, b_{i}, c_{i}$ เป็นจำนวนจริง ถ้า $\\det(A)=3$ แล้ว $\\det(B)=-18$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["2"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 207,
+    "statementHtml": "กำหนดให้ $R$ แทนเซตของจำนวนจริง ให้ $f:R\\rightarrow R$ และ $g:R\\rightarrow R$ เป็นฟังก์ชันที่สอดคล้องกับ $f(x+g(y))=2x+y+15$ สำหรับจำนวนจริง $x$ และ $y$ พิจารณาข้อความต่อไปนี้<dl><dt>(ก)</dt><dd>$(g\\circ f)(x)=2x+15$ สำหรับทุกจำนวนจริง $x$</dd><dt>(ข)</dt><dd>$g(25+f(57))=75$</dd></dl>ข้อใดต่อไปนี้ถูกต้อง<ol type=\"1\"><li>(ก) ถูก และ (ข) ถูก</li><li>(ก) ถูก แต่ (ข) ผิด</li><li>(ก) ผิด แต่ (ข) ถูก</li><li>(ก) ผิด และ (ข) ผิด</li></ol>",
+    "answerType": "choice",
+    "correct": ["4"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 208,
+    "statementHtml": "กำหนดให้ $A$ แทนเซตคำตอบของสมการ <br>$\\log_{2}(x+7)^{2}+4\\log_{4}(x-3)=3\\log_{8}(64x^{2}-256x+256)$ <br>ผลบวกของสมาชิกทั้งหมดในเซต $A$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["5"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 209,
+    "statementHtml": "กำหนดให้ $ABC$ เป็นรูปสามเหลี่ยมที่มีมุม $B$ และมุม $C$ เป็นมุมแหลม <br>โดยที่ $25 \\cos B-13\\cos C=15$, $65(\\cos B+\\cos C)=77$ และด้านตรงข้ามมุม $C$ ยาว $20$ หน่วย <br>ความยาวของเส้นรอบรูปสามเหลี่ยม $ABC$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["54"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 210,
+    "statementHtml": "ถ้า $\\cos 5\\theta = a\\cos^{5}\\theta + b\\cos^{3}\\theta + c\\cos\\theta$ เมื่อ $\\theta$ เป็นจำนวนจริงใดๆ แล้วค่าของ $a^{2}+b^{2}+c^{2}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["681"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 211,
+    "statementHtml": "กำหนดให้ $A$ แทนเซตคำตอบของสมการ $\\log_{6}(3\\cdot4^{x}+2\\cdot9^{x})=x+\\log_{6}5$ และให้ $B$ แทนเซตคำตอบของ<br>สมการ $x+\\sqrt{1-x^{2}}=1+2x\\sqrt{1-x^{2}}$ จำนวนสมาชิกของเซต $A\\cup B$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["3"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 212,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง และ $a$ เป็นจำนวนจริงโดยที่ $a\\ne0$ ให้ $f:R\\rightarrow R$ และ $g:R\\rightarrow R$ เป็นฟังก์ชันที่นิยามโดย $f(x)=ax+2$ และ $g(x)=x^{3}-3x(x-1)$ สำหรับทุกจำนวนจริง $x$ ถ้า $(f^{-1}\\circ g^{-1})(1)=1$ แล้ว $(g\\circ f)(a)$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["9"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 213,
+    "statementHtml": "ถ้า $a_{1},a_{2},a_{3},...,a_{1000}$ เป็นลำดับของจำนวนจริงที่สอดคล้องกับ <br>$\\displaystyle\\frac{a_{1}}{a_{1}+2}=\\displaystyle\\frac{a_{2}}{a_{2}+3}=\\displaystyle\\frac{a_{3}}{a_{3}+4}=...=\\displaystyle\\frac{a_{1000}}{a_{1000}+1001}$ <br>และ $a_{1}+a_{2}+a_{3}+...+a_{1000}=250000$ แล้วค่าของ $a_{1}+a_{1000}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["500"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 214,
+    "statementHtml": "กำหนดให้ $a_{1},a_{2},a_{3},...$ เป็นลำดับของจำนวนเต็ม โดยมีสมบัติดังนี้ $a_{k}+a_{k+1}+a_{k+2}=2576-k$ เมื่อ $k=1,2,3,...$ ถ้า $a_{1}=12$, $a_{2}=2556$ และ $a_{3}=7$ แล้วค่าของ $a_{2558}$ เท่ากับเท่าใด<br>",
+    "answerType": "value",
+    "correct": ["1704"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 215,
+    "statementHtml": "ต้องการจัดเรียงตัวอักษร $P, P, P, A, A, A, T, T, T$ ทั้งหมด (ไม่คำนึงถึงความหมาย) โดยมีเงื่อนไขว่า ตัวอักษร $P$ ทั้งสามตัวต้องอยู่แยกกันทั้งหมดและตัวอักษร $T$ ทั้งสามตัวต้องอยู่แยกกันทั้งหมด <br>จะมีวิธีการเรียงตัวอักษรดังกล่าวได้ทั้งหมดกี่วิธี",
+    "answerType": "value",
+    "correct": ["340"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 216,
+    "statementHtml": "กำหนดให้ $x_{1},x_{2},x_{3},...,x_{n}$ เป็นข้อมูลชุดที่ $1$ ซึ่งมีค่าเฉลี่ยเลขคณิตเท่ากับ $6$ และส่วนเบี่ยงเบนมาตรฐาน<br>เท่ากับ $2$ ให้ $y_{1},y_{2},y_{3},...,y_{n}$ เป็นข้อมูลชุดที่ $2$ โดยที่ $y_{i}=ax_{i}+b$ เมื่อ $i=1,2,3,...,n$ และ $a, b$ เป็นจำนวนจริง และ $a>0$ ถ้านำข้อมูลทั้งสองชุดมารวมกัน $x_{1},x_{2},...,x_{n},y_{1},y_{2},...,y_{n}$ <br>พบว่าค่าเฉลี่ยเลขคณิตเท่ากับ $7$ และความแปรปรวนเท่ากับ $21$ แล้วค่าของ $a^{2}+b^{2}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["109"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 217,
+    "statementHtml": "ข้อมูลชุดหนึ่งมีค่าสังเกต $(x)$ และร้อยละของความถี่สะสมสัมพัทธ์ แสดงดังตารางต่อไปนี้<div align=\"center\"><table border=\"1\"><tbody><tr><td>ค่าสังเกต $(x)$</td><td>ร้อยละของความถี่สะสมสัมพัทธ์</td></tr><tr><td align=\"center\">$1$</td><td align=\"center\">$20$</td></tr><tr><td align=\"center\">$2$</td><td align=\"center\">$40$</td></tr><tr><td align=\"center\">$a$</td><td align=\"center\">$70$</td></tr><tr><td align=\"center\">$6$</td><td align=\"center\">$90$</td></tr><tr><td align=\"center\">$10$</td><td align=\"center\">$100$</td></tr></tbody></table></div>เมื่อ $a$ เป็นจำนวนจริง ถ้าข้อมูลชุดนี้มีค่าเฉลี่ยเลขคณิตเท่ากับ $4$ แล้วความแปรปรวนของข้อมูลชุดนี้<br>เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["7"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 218,
+    "statementHtml": "กำหนดให้ $R$ แทนเซตของจำนวนจริง และ $a, b$ เป็นจำนวนจริง และให้ $f:R\\rightarrow R$ เป็นฟังก์ชัน<br>ที่นิยามโดย $f(x)=a+bx+x^{3}$ สำหรับทุกจำนวนจริง $x$ ถ้าเส้นตรง $5x-y+13=0$ สัมผัสกราฟ<br>ของ $f$ ที่ $x=1$ แล้ว $\\displaystyle\\int_{0}^{2}f(x)dx$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["38"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 219,
+    "statementHtml": "ให้ $R$ แทนเซตของจำนวนจริง ถ้า $f:R\\rightarrow R$ เป็นฟังก์ชัน โดยที่ $f(3)=111$ และ <br>$\\displaystyle\\lim_{x\\rightarrow3}\\displaystyle\\frac{xf(x)-333}{x-3}=2013$ แล้วอัตราการเปลี่ยนแปลงของ $f(x)$ เทียบกับ $x$ ขณะที่ $x=3$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["634"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 220,
+    "statementHtml": "ต้องการเขียนจำนวนที่มีหกหลัก $ABCDEF$ โดยที่ $A, B, C, D, E, F\\in\\{1,2,...,9\\}$,<br>$A+B=14$ และ $C-D>D-E>E-F>0$ จะสร้างได้ทั้งหมดกี่จำนวน",
+    "answerType": "value",
+    "correct": ["35"],
+    "tolerance": 1e-6
+  },
+  {
+    "id": 221,
+    "statementHtml": "ถ้า $A=\\displaystyle\\frac{1}{1\\cdot2}+\\displaystyle\\frac{1}{3\\cdot4}+...+\\displaystyle\\frac{1}{(2015)(2016)}$ และ <br>$B=\\displaystyle\\frac{1}{(1009)(2016)}+\\displaystyle\\frac{1}{(1010)(2015)}+...+\\displaystyle\\frac{1}{(2016)(1009)}$ <br>แล้วค่าของ $\\displaystyle\\frac{20A}{11B}$ เท่ากับเท่าใด",
+    "answerType": "value",
+    "correct": ["2750"],
+    "tolerance": 1e-6
   }
 ]
 </script>
