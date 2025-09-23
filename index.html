@@ -2771,26 +2771,31 @@ window.MathJax = {
         })
         .catch(error => console.error('Error logging in and getting session ID:', error));
     } else {
-      fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: params,
-        mode: 'no-cors' 
-      })
-      .then(() => {
-        console.log(`Event '${action}' sent to Google Sheet.`);
-      })
-      .catch(error => console.error('Error logging to sheet:', error));
+      // สำหรับ logout จะใช้ sendBeacon ใน pagehide ซึ่งน่าเชื่อถือกว่า
+      // แต่ยังคง fetch ไว้สำหรับกรณีที่กดปุ่มออกเอง
+      if (action === 'logout') {
+        params.delete('sessionId'); // sendBeacon จะส่งแยก
+        const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+        navigator.sendBeacon(WEB_APP_URL, blob);
+        console.log(`Event '${action}' sent via sendBeacon.`);
+      } else {
+         fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: params,
+            mode: 'no-cors' 
+          }).catch(error => console.error('Error logging to sheet:', error));
+      }
     }
   }
   
-  // ✅ REVISED: ฟังก์ชันนี้จะทำงานเมื่อผู้ใช้ปิด Browser หรือ Tab
+  // ✅ REVISED: แก้ไขเงื่อนไขการตรวจสอบ
+  // เปลี่ยนจาก started เป็น currentSessionId เพื่อให้ทำงานได้แม้ทดสอบจบแล้ว
   window.addEventListener('pagehide', function() {
-    if (currentSessionId && started) {
+    if (currentSessionId) { // <--- ตรวจสอบแค่ sessionId ก็พอ
       let params = new URLSearchParams();
       params.append('action', 'logout');
       params.append('sessionId', currentSessionId);
       const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
-      // navigator.sendBeacon คือวิธีที่เสถียรที่สุดในการส่งข้อมูลตอนปิดหน้าต่าง
       navigator.sendBeacon(WEB_APP_URL, blob);
     }
   });
@@ -2810,7 +2815,7 @@ window.MathJax = {
     timerEl = $('timer'), prog = $('prog'), progText = $('progText'),
     qBox = $('question'), mcWrap = $('mcWrap'), freeWrap = $('freeWrap'), inputBox = $('inputBox'),
     ansInput = $('answerInput'), btnSubmit = $('btn-submit'),
-    btnRand = $('btn-rand'), btnExit = $('btn-exit'), // ✅ REVISED: เปลี่ยนจาก btn-reset
+    btnRand = $('btn-rand'), btnExit = $('btn-exit'),
     savedMsg = $('savedMsg'), scoreWrap = $('scoreWrap'),
     loginScreen = $('loginScreen'), quizApp = $('quizApp'), btnLogin = $('btnLogin'),
     pwdInput = $('pwd'),
@@ -2851,14 +2856,14 @@ window.MathJax = {
     seq = shuffle(ALL).slice(0, Math.min(MAX_Q, ALL.length));
     idx = -1; answered = 0; started = true; 
     
-    // ซ่อนกล่องคะแนนและแสดงกล่องคำถาม/คำตอบ
     scoreWrap.style.display = 'none';
     qBox.style.display = 'block';
     inputBox.style.display = 'block';
 
     savedMsg.textContent = ''; 
     btnRand.textContent = 'ข้อต่อไป';
-    btnRand.style.display = 'inline-block'; // แสดงปุ่มข้อต่อไป
+    btnRand.style.display = 'inline-block';
+    btnExit.disabled = false; // เปิดใช้งานปุ่มออก
     
     logEventToSheet('login', { password: pwdInput.value });
     
@@ -2883,7 +2888,6 @@ window.MathJax = {
 
   function nextQuestion() {
     if (!started) { initSession(); return; }
-    // ✅ REVISED: ตรวจสอบว่าทำครบ 30 ข้อหรือยัง ถ้าครบแล้วให้จบการทดสอบ
     if (answered >= seq.length) { 
         finishSession(false); 
         return; 
@@ -2928,67 +2932,63 @@ window.MathJax = {
     return Math.abs(val - expect) <= tol;
   }
   
-  // ✅ REVISED: ฟังก์ชันแสดงผลคะแนน
   function showResults(timeup) {
       let correct = 0;
       for (const q of seq) { const rec = given[q.id]; if (rec && check(q, rec.userAns)) correct++; }
       const total = seq.length, pct = total ? Math.round(correct / total * 100) : 0;
       scoreWrap.innerHTML = `<h2>สรุปผลการทดสอบ</h2><b>คะแนน: ${correct}/${total} (${pct}%)</b>` + (timeup ? ' <div>(หมดเวลา)</div>' : '');
       btnRand.textContent = 'เริ่มใหม่';
+      btnRand.style.display = 'inline-block';
       btnRand.disabled = false;
   }
   
-  // ✅ REVISED: ปรับปรุงฟังก์ชัน `finishSession`
   function finishSession(timeup) {
-    if (!started) return;
+    // ป้องกันการเรียกซ้ำ
+    if (!started && !currentSessionId) return;
 
     if (currentSessionId) {
         logEventToSheet('logout', {});
         currentSessionId = null; 
     }
     
-    started = false;
+    started = false; // หยุดสถานะการทำข้อสอบ
     if (tHandle) {
         clearInterval(tHandle);
         tHandle = null;
     }
 
-    // ซ่อนส่วนของคำถามและปุ่มต่างๆ
     qBox.style.display = 'none';
     inputBox.style.display = 'none';
-    btnRand.style.display = 'none'; // ซ่อนปุ่ม "ข้อต่อไป"
+    btnRand.style.display = 'none';
 
     scoreWrap.style.display = 'block';
     
-    // ถ้าหมดเวลาให้แสดงคะแนนเลย
     if (timeup) {
         showResults(true);
     } else {
-        // ถ้าทำครบ ให้แสดงปุ่ม "ดูผลการทดสอบ"
         scoreWrap.innerHTML = '<button class="primary" id="btn-view-results" style="width:100%; padding: 12px;">ดูผลการทดสอบ</button>';
-        // เพิ่ม Event Listener ให้กับปุ่มที่เพิ่งสร้างขึ้น
         $('btn-view-results').addEventListener('click', () => showResults(false));
     }
   }
   
-  // ✅ REVISED: ปุ่มออกจากการทดสอบ จะทำการจบ session และบันทึกเวลา Logout
+  // ✅ REVISED: แก้ไขเงื่อนไขการตรวจสอบ
+  // เปลี่ยนจาก !started เป็น !currentSessionId
   btnExit?.addEventListener('click', () => {
-      if (!started) return;
-      if (confirm('คุณต้องการออกจากการทดสอบนี้ใช่หรือไม่?')) {
-          finishSession(false); // จบการทดสอบ
+      if (!currentSessionId) return; // <--- ตรวจสอบ sessionId แทน
+      if (confirm('คุณต้องการออกจากการทดสอบนี้ใช่หรือไม่? ข้อมูลจะถูกบันทึก')) {
+          finishSession(false); 
           scoreWrap.innerHTML = '<h2>ออกจากการทดสอบแล้ว</h2><p>ข้อมูลการทำแบบทดสอบของคุณได้ถูกบันทึกแล้ว</p>';
           btnRand.textContent = 'เริ่มใหม่';
-          btnRand.style.display = 'inline-block'; // แสดงปุ่มเริ่มใหม่
+          btnRand.style.display = 'inline-block';
           btnRand.disabled = false;
+          btnExit.disabled = true; // ปิดปุ่มออกหลังจากกดไปแล้ว
       }
   });
 
   btnRand?.addEventListener('click', () => { 
-      if (!started) { 
-          initSession(); 
-      } else { 
-          nextQuestion(); 
-      } 
+      // เมื่อกด "เริ่มใหม่" sessionId จะถูกล้างไปแล้วจาก finishSession
+      // ดังนั้นจะเข้าเงื่อนไข initSession() โดยอัตโนมัติ
+      initSession(); 
   });
 
   btnLogin?.addEventListener('click', () => {
