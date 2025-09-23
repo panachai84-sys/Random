@@ -2747,7 +2747,8 @@ window.MathJax = {
   let currentSessionId = null; 
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwpANUkk9nkwyOMYeg4dfdmYy1w9Ml7U28MzWGHLBs51qbjKqsJZOxDT2_OTKUz5Z0C/exec'; 
 
-  // ✅ REVISED: ปรับปรุงฟังก์ชันส่งข้อมูลให้เสถียรขึ้น
+  // ✅ REVISED: เปลี่ยนการส่งข้อมูลทั้งหมดให้เป็นแบบมาตรฐาน (เหมือนตอน Login)
+  // เพื่อความแน่นอนสูงสุดว่า Server จะประมวลผลได้
   function logEventToSheet(action, data) {
     let params = new URLSearchParams();
     params.append('action', action);
@@ -2759,38 +2760,43 @@ window.MathJax = {
       params.append('sessionId', currentSessionId);
     }
 
-    if (action === 'login') {
-      // สำหรับ Login: ต้องใช้ fetch เพื่อรอรับ sessionId กลับมา
-      fetch(WEB_APP_URL, { method: 'POST', body: params })
-        .then(response => response.json())
-        .then(result => {
-          if (result.status === 'success' && result.sessionId) {
-            currentSessionId = result.sessionId;
-            console.log('Login successful. Session ID:', currentSessionId);
-          } else {
-            console.error('Failed to get session ID:', result);
-          }
-        })
-        .catch(error => console.error('Error on login fetch:', error));
-    } else {
-      // สำหรับ Logout ที่เกิดจากการกดปุ่ม: ใช้ fetch แบบ no-cors จะเสถียรกว่า
-      fetch(WEB_APP_URL, {
+    // ใช้ fetch แบบมาตรฐานสำหรับทุก action
+    fetch(WEB_APP_URL, {
         method: 'POST',
-        body: params,
-        mode: 'no-cors' 
-      })
-      .then(() => console.log(`Event '${action}' sent to Google Sheet.`))
-      .catch(error => console.error(`Error on ${action} fetch:`, error));
-    }
+        body: params
+        // ไม่ใช้ mode: 'no-cors' แล้ว
+    })
+    .then(response => {
+        // เฉพาะตอน login เท่านั้นที่เราต้องการอ่านค่าที่ส่งกลับมา
+        if (action === 'login') {
+            return response.json();
+        }
+        // สำหรับ action อื่นๆ (เช่น logout) เราไม่จำเป็นต้องรอค่าตอบกลับ
+        return { status: 'sent' };
+    })
+    .then(result => {
+        if (action === 'login') {
+            if (result.status === 'success' && result.sessionId) {
+                currentSessionId = result.sessionId;
+                console.log('Login successful. Session ID:', currentSessionId);
+            } else {
+                console.error('Failed to get session ID:', result);
+            }
+        } else {
+            console.log(`Event '${action}' sent successfully.`);
+        }
+    })
+    .catch(error => console.error(`Error on '${action}' action:`, error));
   }
   
-  // ✅ ใช้ sendBeacon เฉพาะตอนปิดหน้าต่างเท่านั้น ซึ่งเป็นวิธีที่ถูกต้องที่สุด
+  // สำหรับการปิดหน้าต่าง sendBeacon ยังเป็นทางเลือกที่ดีที่สุด
   window.addEventListener('pagehide', function() {
     if (currentSessionId) { 
       let params = new URLSearchParams();
       params.append('action', 'logout');
       params.append('sessionId', currentSessionId);
       const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+      // sendBeacon เป็นการส่งแบบ "best-effort" อาจไม่สำเร็จ 100% ขึ้นอยู่กับ server
       navigator.sendBeacon(WEB_APP_URL, blob);
     }
   });
@@ -2931,10 +2937,10 @@ window.MathJax = {
   function finishSession(isTimeUp) {
     if (!started) return;
 
-    // ✅ เรียกใช้ logEventToSheet ที่ใช้ fetch ที่เสถียร
     if (currentSessionId) {
         logEventToSheet('logout', {});
-        currentSessionId = null; 
+        // สำคัญ: เราไม่ล้าง sessionId ทันที เพื่อให้ sendBeacon ใน pagehide ยังมีโอกาสทำงาน
+        // แต่เราตั้งค่า started เป็น false เพื่อป้องกันการทำงานซ้ำซ้อน
     }
     
     started = false; 
@@ -2959,7 +2965,7 @@ window.MathJax = {
     scoreWrap.style.display = 'block';
     scoreWrap.innerHTML = `<h2>สรุปผลการทดสอบ</h2>
                          <p>คุณตอบไป ${answered} จาก ${total} ข้อ</p>
-                         <b>คะแนน: ${correct}/${answered} (${pct}%)</b>${timeupMessage}`;
+                         <b>คะแนน: ${correct}/${total} (${pct}%)</b>${timeupMessage}`;
     
     btnRand.textContent = 'เริ่มใหม่';
     btnRand.style.display = 'inline-block';
@@ -2977,6 +2983,7 @@ window.MathJax = {
       if (started) {
           nextQuestion();
       } else {
+          currentSessionId = null; // ล้าง sessionId เมื่อกดเริ่มใหม่จริงๆ
           initSession();
       }
   });
