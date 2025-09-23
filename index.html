@@ -1369,7 +1369,7 @@ window.MathJax = {
   },
   {
     "id": 146,
-    "statementHtml": "กำหนดให้ $a$ และ $b$ เป็นจำนวนจริง โดยที่ $ab>0$ ให้ $p$ แทนประพจน์ “ถ้า $a<b$ แล้ว $\\displaystyle\\frac{1}{a}>\\displaystyle\\frac{1}{b}$” และ $q$ แทนประพจน์ “$\\sqrt{ab}=\\sqrt{a}\\sqrt{b}$” ประพจน์ในข้อใดต่อไปนี้มีค่าความจริงเป็นจริง<ol type=\"1\"><li>$(p\\Rightarrow q)\\vee(q\\wedge\\sim p)$</li><li>$(\\sim q\\Rightarrow\\sim p)\\wedge(\\sim q\\vee p)$</li><li>$(p\\wedge\\sim q)\\wedge(q\\Rightarrow p)$</li><li>$(\\sim p\\Rightarrow q)\\Rightarrow(p\\wedge q)$</li></ol>",
+    "statementHtml": "กำหนดให้ $a$ และ $b$ เป็นจำนวนจริง โดยที่ $ab>0$ ให้ $p$ แทนประพจน์ “ถ้า $a<b$ แล้ว $\\displaystyle \\frac{1}{a}>\\displaystyle\\frac{1}{b}$” และ $q$ แทนประพจน์ “$\\sqrt{ab}=\\sqrt{a}\\sqrt{b}$” ประพจน์ในข้อใดต่อไปนี้มีค่าความจริงเป็นจริง<ol type=\"1\"><li>$(p\\Rightarrow q)\\vee(q\\wedge\\sim p)$</li><li>$(\\sim q\\Rightarrow\\sim p)\\wedge(\\sim q\\vee p)$</li><li>$(p\\wedge\\sim q)\\wedge(q\\Rightarrow p)$</li><li>$(\\sim p\\Rightarrow q)\\Rightarrow(p\\wedge q)$</li></ol>",
     "answerType": "choice",
     "correct": ["2"],
     "tolerance": 1e-6
@@ -2792,7 +2792,7 @@ window.MathJax = {
       mcWrap.style.display='block'; freeWrap.style.display='none';
       mcWrap.innerHTML = `
         <div style="margin-top:8px">เลือกคำตอบของคุณ:</div>
-        ${[1,2,3,4].map(n=>`<label style="display:inline-flex;gap:8px;margin-right:14px;"><input type="radio" name="ans" value="${n}"> ${n}</label>`).join('')}
+        ${[1,2,3,4,5].map(n=>`<label style="display:inline-flex;gap:8px;margin-right:14px;"><input type="radio" name="ans" value="${n}"> ${n}</label>`).join('')}
       `;
     } else {
       mcWrap.style.display='none'; freeWrap.style.display='block'; ansInput.value=''; ansInput.focus();
