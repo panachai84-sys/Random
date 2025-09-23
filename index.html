@@ -2735,9 +2735,6 @@ window.MathJax = {
   const $ = (id) => document.getElementById(id);
   const fmt = (n) => String(n).padStart(2,'0');
 
-  // --- START: ส่วนที่แก้ไข ---
-
-  // 1. สร้างรายการรหัสผ่านที่อนุญาต (คุณสามารถเปลี่ยนรหัสผ่านในนี้ได้)
   const validPasswords = [
     "79307", "46516", "53388", "67987", "75187",
     "93908", "27866", "72116", "55050", "16905",
@@ -2748,11 +2745,11 @@ window.MathJax = {
     "Math-Test-2025", "Password12345", "Panachai-Test-01", "WelcomeToTheTest", "LetMeInPlease!"
   ];
   
-  // เพิ่มตัวแปร sessionId ในขอบเขตที่กว้างขึ้น
   let currentSessionId = null; 
 
-function logEventToSheet(action, data) {
-    // !!! สำคัญมาก: แก้ URL ตรงนี้ให้เป็นของคุณ !!!
+  // FIXED #2: ปรับปรุงฟังก์ชันส่งข้อมูลให้เสถียรขึ้น
+  function logEventToSheet(action, data) {
+    // !!! สำคัญมาก: โปรดตรวจสอบว่า URL นี้ถูกต้อง และ Web App ของคุณถูก Deploy อย่างถูกต้อง !!!
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxdOEdHblUXm7kqlHS5Th1LBVip4NLCaU9501q6Y0x14uEQuN7xFEMKRj5W_iPhG4_-/exec'; 
     
     let params = new URLSearchParams();
@@ -2760,36 +2757,47 @@ function logEventToSheet(action, data) {
     for (const key in data) {
       params.append(key, data[key]);
     }
+    // เพิ่ม sessionId เข้าไปใน data ที่จะส่ง ถ้ามี
+    if (currentSessionId) {
+      params.append('sessionId', currentSessionId);
+    }
 
-    if (action === 'login') {
-      fetch(WEB_APP_URL, {
+    fetch(WEB_APP_URL, {
         method: 'POST',
-        body: params
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.status === 'success' && result.sessionId) {
-          currentSessionId = result.sessionId;
-          console.log('Login successful. Session ID:', currentSessionId);
-        }
-      })
-      .catch(error => console.error('Error logging login:', error));
-    } else {
-      // สำหรับ logout หรือการจบ session ใช้ sendBeacon
-      // เพิ่ม sessionId เข้าไปใน data ที่จะส่ง
-      if (currentSessionId) {
-        params.append('sessionId', currentSessionId);
-      }
-      const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
-      navigator.sendBeacon(WEB_APP_URL, blob);
-      console.log('Logout/Finish event sent for session:', currentSessionId);
+        body: params,
+        mode: 'no-cors' // อาจจำเป็นสำหรับบาง deployment
+    })
+    .then(response => {
+        // สำหรับ login เราต้องการ response แต่ตอนนี้เราปรับให้เหมือนกันไปก่อน
+        // การ fetch แบบมาตรฐานจะให้ข้อมูลดีกว่าสำหรับการดีบัก
+        console.log(`Event '${action}' sent to Google Sheet.`);
+        // สำหรับ login จริงๆ ควรมีการ trả lời กลับมาเป็น JSON
+        // แต่เพื่อความง่าย จะใช้ fetch แบบง่ายๆ ไปก่อน
+    })
+    .catch(error => console.error('Error logging to sheet:', error));
+
+    // เฉพาะตอน Login เท่านั้นที่เราจะดึง sessionId
+    if (action === 'login') {
+        fetch(WEB_APP_URL, { method: 'POST', body: params })
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success' && result.sessionId) {
+            currentSessionId = result.sessionId;
+            console.log('Login successful. Session ID:', currentSessionId);
+            }
+        })
+        .catch(error => console.error('Error getting session ID:', error));
     }
   }
-
-  // เพิ่มส่วนนี้เพื่อดักจับตอนปิดหน้าต่าง
+  
   window.addEventListener('pagehide', function() {
-    if (currentSessionId && started) { // เช็คว่า session ยังไม่จบ
-      logEventToSheet('logout', { sessionId: currentSessionId });
+    if (currentSessionId && started) {
+      // สำหรับ pagehide, sendBeacon ยังเป็นตัวเลือกที่ดีที่สุด
+      let params = new URLSearchParams();
+      params.append('action', 'logout');
+      params.append('sessionId', currentSessionId);
+      const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
+      navigator.sendBeacon(WEB_APP_URL, blob);
     }
   });
 
@@ -2820,8 +2828,7 @@ function logEventToSheet(action, data) {
 
   // State
   let seq = [], idx = -1, answered = 0, timer = 90 * 60, tHandle = null, started = false;
-  let nextQHandle = null; // <<<< 1. เพิ่มตัวแปรนี้
-  const given = {}; // id -> userAns
+  const given = {};
 
   function renderTimer() {
     const m = Math.floor(timer / 60), s = timer % 60;
@@ -2846,13 +2853,15 @@ function logEventToSheet(action, data) {
   }
 
   function initSession() {
+    Object.keys(given).forEach(key => delete given[key]); // เคลียร์คำตอบเก่า
     seq = shuffle(ALL).slice(0, Math.min(MAX_Q, ALL.length));
-    idx = -1; answered = 0; started = true; scoreWrap.style.display = 'none'; savedMsg.textContent = ''; btnRand.textContent = 'ข้อต่อไป';
-    // ต้องเริ่ม session ID ใหม่ทุกครั้งที่เริ่มทำข้อสอบ
-    if (currentSessionId === null && pwdInput.value) {
-        logEventToSheet('login', { password: pwdInput.value });
-    }
-    startTimer(); nextQuestion();
+    idx = -1; answered = 0; started = true; 
+    scoreWrap.style.display = 'none'; savedMsg.textContent = ''; btnRand.textContent = 'ข้อต่อไป';
+    
+    logEventToSheet('login', { password: pwdInput.value });
+    
+    startTimer(); 
+    nextQuestion();
   }
 
   function renderQuestion(q) {
@@ -2875,7 +2884,12 @@ function logEventToSheet(action, data) {
     if (answered >= seq.length) { finishSession(false); return; }
     idx++; const q = seq[idx];
     metaId.textContent = `ข้อที่ ${idx + 1} · id=${q.id}`;
-    renderQuestion(q); updateBadges();
+    savedMsg.textContent = ''; // เคลียร์ข้อความ "บันทึกแล้ว"
+    renderQuestion(q); 
+    updateBadges();
+    
+    // FIXED #1: ปิดการใช้งานปุ่ม "ข้อต่อไป" เมื่อแสดงโจทย์ใหม่
+    btnRand.disabled = true;
   }
 
   btnSubmit?.addEventListener('click', () => {
@@ -2891,11 +2905,18 @@ function logEventToSheet(action, data) {
       if (!v) { savedMsg.textContent = 'โปรดพิมพ์คำตอบ'; return; }
       userAns = v;
     }
+
+    if (!given[q.id]) { // นับเป็นตอบแล้ว ต่อเมื่อตอบครั้งแรก
+        answered++;
+    }
     given[q.id] = { userAns };
-    answered++; savedMsg.textContent = 'บันทึกแล้ว';
-    // <<<< 2. แก้ไขตรงนี้: เก็บ ID ของ timeout
-    if (nextQHandle) clearTimeout(nextQHandle); // เคลียร์ของเก่าก่อน
-    nextQHandle = setTimeout(() => nextQuestion(), 300);
+    savedMsg.textContent = 'บันทึกแล้ว';
+    updateBadges();
+
+    // FIXED #1: เปิดใช้งานปุ่ม "ข้อต่อไป" หลังจากบันทึกคำตอบแล้ว
+    btnRand.disabled = false;
+    // FIXED #1: ลบการเลื่อนข้ออัตโนมัติออก
+    // setTimeout(() => nextQuestion(), 300); 
   });
 
   function check(q, ans) {
@@ -2906,57 +2927,51 @@ function logEventToSheet(action, data) {
   }
   
   function finishSession(timeup) {
-    // เพิ่ม Guard Clause ป้องกันการเรียกซ้ำ
     if (!started) return; 
-
-    // <<<< 3. เพิ่มส่วนนี้: ยกเลิก timeout ที่อาจจะค้างอยู่
-    if (nextQHandle) {
-        clearTimeout(nextQHandle);
-        nextQHandle = null;
-    }
 
     if (currentSessionId) {
         logEventToSheet('logout', { sessionId: currentSessionId });
         currentSessionId = null; 
     }
     
-    started = false; // ต้องตั้งค่าสถานะหลังจากส่งข้อมูลแล้ว
+    started = false;
     
     let correct = 0;
     for (const q of seq) { const rec = given[q.id]; if (rec && check(q, rec.userAns)) correct++; }
     const total = seq.length, pct = total ? Math.round(correct / total * 100) : 0;
     scoreWrap.style.display = 'block';
     scoreWrap.innerHTML = `สรุปคะแนน: ได้ ${correct}/${total} (${pct}%) ` + (timeup ? '• หมดเวลา' : '');
-    btnRand.textContent = 'เริ่มใหม่'; updateBadges();
+    btnRand.textContent = 'เริ่มใหม่'; 
+    btnRand.disabled = false; // ทำให้ปุ่มเริ่มใหม่กดได้
+    updateBadges();
   }
   
   btnFinish?.addEventListener('click', () => finishSession(false));
-
   btnReset?.addEventListener('click', () => {
-    if (started && currentSessionId) { // ตรวจสอบว่า session กำลังทำงานอยู่หรือไม่
+    if (started && currentSessionId) {
         logEventToSheet('logout', { sessionId: currentSessionId });
     }
     currentSessionId = null;
 
     if (tHandle) { clearInterval(tHandle); tHandle = null; } 
-    if (nextQHandle) { clearTimeout(nextQHandle); nextQHandle = null; } // เพิ่มการเคลียร์ timeout ที่นี่ด้วย
 
-    timer = 90 * 60; renderTimer(); seq = []; idx = -1; started = false; answered = 0; qBox.textContent = 'คลิก “สุ่มโจทย์” เพื่อเริ่ม'; savedMsg.textContent = ''; scoreWrap.style.display = 'none'; metaId.textContent = '—'; metaStatus.textContent = 'ตอบแล้ว 0 ข้อ'; metaQueue.textContent = `ในคลัง ${Math.min(MAX_Q, ALL.length)} ข้อ`; prog.value = 0; prog.max = Math.min(MAX_Q, ALL.length) || 1; progText.textContent = `0/${Math.min(MAX_Q, ALL.length)}`; btnRand.textContent = 'สุ่มโจทย์';
+    timer = 90 * 60; renderTimer(); seq = []; idx = -1; started = false; answered = 0; qBox.textContent = 'คลิก “สุ่มโจทย์” เพื่อเริ่ม'; savedMsg.textContent = ''; scoreWrap.style.display = 'none'; metaId.textContent = '—'; metaStatus.textContent = 'ตอบแล้ว 0 ข้อ'; metaQueue.textContent = `ในคลัง ${Math.min(MAX_Q, ALL.length)} ข้อ`; prog.value = 0; prog.max = Math.min(MAX_Q, ALL.length) || 1; progText.textContent = `0/${Math.min(MAX_Q, ALL.length)}`; 
+    btnRand.textContent = 'สุ่มโจทย์';
+    btnRand.disabled = false;
   });
 
   btnRand?.addEventListener('click', () => { 
-      if (!started) {
-          initSession();
-      } else {
-          nextQuestion();
-      }
+      if (!started) { 
+          initSession(); 
+      } else { 
+          nextQuestion(); 
+      } 
   });
 
   btnLogin?.addEventListener('click', () => {
     const enteredPassword = pwdInput.value;
 
     if (validPasswords.includes(enteredPassword)) {
-      // ไม่ต้องเรียก logEventToSheet ที่นี่แล้ว จะไปเรียกใน initSession แทน
       msg.textContent = '';
       loginScreen.style.display = 'none';
       loginScreen.setAttribute('aria-hidden', 'true');
