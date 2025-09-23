@@ -2746,53 +2746,58 @@ window.MathJax = {
   ];
   
   let currentSessionId = null; 
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwpANUkk9nkwyOMYeg4dfdmYy1w9Ml7U28MzWGHLBs51qbjKqsJZOxDT2_OTKUz5Z0C/exec'; 
 
-  // FIXED #2: ปรับปรุงฟังก์ชันส่งข้อมูลให้เสถียรขึ้น
+  // --- START: CODE REVISED ---
+  /**
+   * แก้ไขฟังก์ชัน logEventToSheet
+   * 1. สำหรับ action 'login':
+   * - ใช้ fetch เพียงครั้งเดียวเพื่อส่งข้อมูลและรับ sessionId กลับมา
+   * - ลบ fetch แบบ 'no-cors' ที่ซ้ำซ้อนออก เพื่อแก้ปัญหาล็อกอินซ้ำ
+   * 2. สำหรับ action อื่นๆ (เช่น 'logout'):
+   * - ยังคงใช้ fetch แบบ 'no-cors' เพื่อส่งข้อมูลแบบ "fire and forget"
+   */
   function logEventToSheet(action, data) {
-    // !!! สำคัญมาก: โปรดตรวจสอบว่า URL นี้ถูกต้อง และ Web App ของคุณถูก Deploy อย่างถูกต้อง !!!
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwpANUkk9nkwyOMYeg4dfdmYy1w9Ml7U28MzWGHLBs51qbjKqsJZOxDT2_OTKUz5Z0C/exec'; 
-    
     let params = new URLSearchParams();
     params.append('action', action);
     for (const key in data) {
       params.append(key, data[key]);
     }
-    // เพิ่ม sessionId เข้าไปใน data ที่จะส่ง ถ้ามี
+    
     if (currentSessionId) {
       params.append('sessionId', currentSessionId);
     }
 
-    fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: params,
-        mode: 'no-cors' // อาจจำเป็นสำหรับบาง deployment
-    })
-    .then(response => {
-        // สำหรับ login เราต้องการ response แต่ตอนนี้เราปรับให้เหมือนกันไปก่อน
-        // การ fetch แบบมาตรฐานจะให้ข้อมูลดีกว่าสำหรับการดีบัก
-        console.log(`Event '${action}' sent to Google Sheet.`);
-        // สำหรับ login จริงๆ ควรมีการ trả lời กลับมาเป็น JSON
-        // แต่เพื่อความง่าย จะใช้ fetch แบบง่ายๆ ไปก่อน
-    })
-    .catch(error => console.error('Error logging to sheet:', error));
-
-    // เฉพาะตอน Login เท่านั้นที่เราจะดึง sessionId
     if (action === 'login') {
-        fetch(WEB_APP_URL, { method: 'POST', body: params })
+      // สำหรับ Login: ส่งข้อมูลและรอรับ sessionId กลับมา
+      fetch(WEB_APP_URL, { method: 'POST', body: params })
         .then(response => response.json())
         .then(result => {
-            if (result.status === 'success' && result.sessionId) {
-            currentSessionId = result.sessionId;
+          if (result.status === 'success' && result.sessionId) {
+            currentSessionId = result.sessionId; // ตั้งค่า sessionId ที่ได้รับ
             console.log('Login successful. Session ID:', currentSessionId);
-            }
+          } else {
+            console.error('Failed to get session ID from login response:', result);
+          }
         })
-        .catch(error => console.error('Error getting session ID:', error));
+        .catch(error => console.error('Error logging in and getting session ID:', error));
+    } else {
+      // สำหรับ action อื่นๆ (เช่น Logout): ส่งข้อมูลแบบ fire-and-forget
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: params,
+        mode: 'no-cors' 
+      })
+      .then(() => {
+        console.log(`Event '${action}' sent to Google Sheet.`);
+      })
+      .catch(error => console.error('Error logging to sheet:', error));
     }
   }
+  // --- END: CODE REVISED ---
   
   window.addEventListener('pagehide', function() {
     if (currentSessionId && started) {
-      // สำหรับ pagehide, sendBeacon ยังเป็นตัวเลือกที่ดีที่สุด
       let params = new URLSearchParams();
       params.append('action', 'logout');
       params.append('sessionId', currentSessionId);
@@ -2853,11 +2858,12 @@ window.MathJax = {
   }
 
   function initSession() {
-    Object.keys(given).forEach(key => delete given[key]); // เคลียร์คำตอบเก่า
+    Object.keys(given).forEach(key => delete given[key]);
     seq = shuffle(ALL).slice(0, Math.min(MAX_Q, ALL.length));
     idx = -1; answered = 0; started = true; 
     scoreWrap.style.display = 'none'; savedMsg.textContent = ''; btnRand.textContent = 'ข้อต่อไป';
     
+    // เรียก logEventToSheet 'login' ซึ่งตอนนี้จะส่ง request แค่ครั้งเดียว
     logEventToSheet('login', { password: pwdInput.value });
     
     startTimer(); 
@@ -2884,11 +2890,10 @@ window.MathJax = {
     if (answered >= seq.length) { finishSession(false); return; }
     idx++; const q = seq[idx];
     metaId.textContent = `ข้อที่ ${idx + 1} · id=${q.id}`;
-    savedMsg.textContent = ''; // เคลียร์ข้อความ "บันทึกแล้ว"
+    savedMsg.textContent = '';
     renderQuestion(q); 
     updateBadges();
     
-    // FIXED #1: ปิดการใช้งานปุ่ม "ข้อต่อไป" เมื่อแสดงโจทย์ใหม่
     btnRand.disabled = true;
   }
 
@@ -2906,17 +2911,14 @@ window.MathJax = {
       userAns = v;
     }
 
-    if (!given[q.id]) { // นับเป็นตอบแล้ว ต่อเมื่อตอบครั้งแรก
+    if (!given[q.id]) {
         answered++;
     }
     given[q.id] = { userAns };
     savedMsg.textContent = 'บันทึกแล้ว';
     updateBadges();
 
-    // FIXED #1: เปิดใช้งานปุ่ม "ข้อต่อไป" หลังจากบันทึกคำตอบแล้ว
     btnRand.disabled = false;
-    // FIXED #1: ลบการเลื่อนข้ออัตโนมัติออก
-    // setTimeout(() => nextQuestion(), 300); 
   });
 
   function check(q, ans) {
@@ -2929,8 +2931,9 @@ window.MathJax = {
   function finishSession(timeup) {
     if (!started) return; 
 
+    // เงื่อนไขนี้จะทำงานได้อย่างถูกต้องเมื่อ currentSessionId ถูกตั้งค่าตอน login
     if (currentSessionId) {
-        logEventToSheet('logout', { sessionId: currentSessionId });
+        logEventToSheet('logout', {}); // ส่ง sessionId ไปกับ params โดยอัตโนมัติ
         currentSessionId = null; 
     }
     
@@ -2942,14 +2945,14 @@ window.MathJax = {
     scoreWrap.style.display = 'block';
     scoreWrap.innerHTML = `สรุปคะแนน: ได้ ${correct}/${total} (${pct}%) ` + (timeup ? '• หมดเวลา' : '');
     btnRand.textContent = 'เริ่มใหม่'; 
-    btnRand.disabled = false; // ทำให้ปุ่มเริ่มใหม่กดได้
+    btnRand.disabled = false;
     updateBadges();
   }
   
   btnFinish?.addEventListener('click', () => finishSession(false));
   btnReset?.addEventListener('click', () => {
     if (started && currentSessionId) {
-        logEventToSheet('logout', { sessionId: currentSessionId });
+        logEventToSheet('logout', {});
     }
     currentSessionId = null;
 
