@@ -115,7 +115,7 @@ window.MathJax = {
 <div class="controls">
     <button class="primary" id="btn-rand">สุ่มโจทย์</button>
     <span class="stretch"></span>
-    <button class="danger" id="btn-exit">ออกจากการทดสอบ</button>
+    <button class="warn" id="btn-finish-early">จบการทดสอบ</button>
 </div>
 <div class="meta">
 <span class="chip" id="meta-id">—</span>
@@ -2802,7 +2802,7 @@ window.MathJax = {
     timerEl = $('timer'), prog = $('prog'), progText = $('progText'),
     qBox = $('question'), mcWrap = $('mcWrap'), freeWrap = $('freeWrap'), inputBox = $('inputBox'),
     ansInput = $('answerInput'), btnSubmit = $('btn-submit'),
-    btnRand = $('btn-rand'), btnExit = $('btn-exit'),
+    btnRand = $('btn-rand'), btnFinishEarly = $('btn-finish-early'), // ✅ REVISED: เปลี่ยนชื่อตัวแปรปุ่ม
     savedMsg = $('savedMsg'), scoreWrap = $('scoreWrap'),
     loginScreen = $('loginScreen'), quizApp = $('quizApp'), btnLogin = $('btnLogin'),
     pwdInput = $('pwd'),
@@ -2827,6 +2827,7 @@ window.MathJax = {
     if (tHandle) return;
     renderTimer();
     tHandle = setInterval(() => {
+      // ✅ REVISED: เรียก finishSession เมื่อหมดเวลา
       if (timer <= 0) { clearInterval(tHandle); tHandle = null; finishSession(true); return; }
       timer--; renderTimer();
     }, 1000);
@@ -2850,7 +2851,8 @@ window.MathJax = {
     savedMsg.textContent = ''; 
     btnRand.textContent = 'ข้อต่อไป';
     btnRand.style.display = 'inline-block';
-    btnExit.disabled = false;
+    btnFinishEarly.style.display = 'inline-block'; // แสดงปุ่ม "จบการทดสอบ"
+    btnFinishEarly.disabled = false;
     
     logEventToSheet('login', { password: pwdInput.value });
     
@@ -2875,6 +2877,7 @@ window.MathJax = {
 
   function nextQuestion() {
     if (!started) { initSession(); return; }
+    // ✅ REVISED: เรียก finishSession เมื่อทำครบ
     if (answered >= seq.length) { 
         finishSession(false); 
         return; 
@@ -2919,18 +2922,10 @@ window.MathJax = {
     return Math.abs(val - expect) <= tol;
   }
   
-  function showResults(timeup) {
-      let correct = 0;
-      for (const q of seq) { const rec = given[q.id]; if (rec && check(q, rec.userAns)) correct++; }
-      const total = seq.length, pct = total ? Math.round(correct / total * 100) : 0;
-      scoreWrap.innerHTML = `<h2>สรุปผลการทดสอบ</h2><b>คะแนน: ${correct}/${total} (${pct}%)</b>` + (timeup ? ' <div>(หมดเวลา)</div>' : '');
-      btnRand.textContent = 'เริ่มใหม่';
-      btnRand.style.display = 'inline-block';
-      btnRand.disabled = false;
-  }
-  
-  function finishSession(timeup) {
-    if (!currentSessionId) return;
+  // ✅ REVISED: รวมฟังก์ชัน showResults เข้ามาใน finishSession
+  // ฟังก์ชันนี้จะจัดการการจบการทดสอบทุกรูปแบบ และแสดงผลคะแนนทันที
+  function finishSession(isTimeUp) {
+    if (!started) return; // ป้องกันการเรียกซ้ำ
 
     if (currentSessionId) {
         logEventToSheet('logout', {});
@@ -2943,40 +2938,44 @@ window.MathJax = {
         tHandle = null;
     }
 
+    // ซ่อน UI ของการทำข้อสอบ
     qBox.style.display = 'none';
     inputBox.style.display = 'none';
     btnRand.style.display = 'none';
+    btnFinishEarly.style.display = 'none';
+
+    // คำนวณและแสดงคะแนน
+    let correct = 0;
+    for (const q of seq) {
+        const rec = given[q.id];
+        if (rec && check(q, rec.userAns)) correct++;
+    }
+    const total = seq.length, pct = total ? Math.round(correct / total * 100) : 0;
+    const timeupMessage = isTimeUp ? ' <div>(หมดเวลา)</div>' : '';
 
     scoreWrap.style.display = 'block';
+    scoreWrap.innerHTML = `<h2>สรุปผลการทดสอบ</h2>
+                         <p>คุณตอบไป ${answered} จาก ${total} ข้อ</p>
+                         <b>คะแนน: ${correct}/${total} (${pct}%)</b>${timeupMessage}`;
     
-    if (timeup) {
-        showResults(true);
-    } else {
-        scoreWrap.innerHTML = '<button class="primary" id="btn-view-results" style="width:100%; padding: 12px;">ดูผลการทดสอบ</button>';
-        $('btn-view-results').addEventListener('click', () => showResults(false));
-    }
+    // แสดงปุ่ม "เริ่มใหม่"
+    btnRand.textContent = 'เริ่มใหม่';
+    btnRand.style.display = 'inline-block';
+    btnRand.disabled = false;
   }
   
-  btnExit?.addEventListener('click', () => {
-      if (!currentSessionId) return; 
-      if (confirm('คุณต้องการออกจากการทดสอบนี้ใช่หรือไม่? ข้อมูลจะถูกบันทึก')) {
-          finishSession(false); 
-          scoreWrap.innerHTML = '<h2>ออกจากการทดสอบแล้ว</h2><p>ข้อมูลการทำแบบทดสอบของคุณได้ถูกบันทึกแล้ว</p>';
-          btnRand.textContent = 'เริ่มใหม่';
-          btnRand.style.display = 'inline-block';
-          btnRand.disabled = false;
-          btnExit.disabled = true;
-      }
+  // ✅ REVISED: เพิ่ม Event Listener สำหรับปุ่ม "จบการทดสอบ"
+  btnFinishEarly?.addEventListener('click', () => {
+    if (!started) return;
+    if (confirm('คุณต้องการจบการทดสอบและดูคะแนนใช่หรือไม่?')) {
+        finishSession(false);
+    }
   });
 
-  // ✅ REVISED: แก้ไข Event Listener ของปุ่ม #btn-rand ให้ถูกต้อง
-  // เพิ่มเงื่อนไขเพื่อแยกว่าจะ "ไปข้อต่อไป" หรือ "เริ่มใหม่"
   btnRand?.addEventListener('click', () => { 
       if (started) {
-          // ถ้าการทดสอบยังดำเนินอยู่ ให้ไปข้อต่อไป
           nextQuestion();
       } else {
-          // ถ้าการทดสอบจบแล้วหรือยังไม่เริ่ม ให้เริ่มใหม่
           initSession();
       }
   });
