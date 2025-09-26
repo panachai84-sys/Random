@@ -24,7 +24,7 @@
     box-shadow: 0 8px 24px rgba(0,0,0,.35);
   }
   h1{font-size:1.25rem; margin: 10px 0 16px; letter-spacing:.2px}
-  .controls{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 14px}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 14px; align-items: center;}
   .controls > *{flex:0 0 auto}
   button, input{
     background:#0b1220; color:var(--ink); border:1px solid #2b3445; border-radius:10px; padding:9px 12px;
@@ -76,7 +76,6 @@
 }
 </style>
 
-<!-- MathJax: stable SVG output with TeX fonts + custom macros -->
 <script>
 window.MathJax = {
   tex: {
@@ -114,6 +113,11 @@ window.MathJax = {
 <h1>ฝึกทำโจทย์เตรียมพร้อมสู่สนาม A-LEVEL</h1>
 <div class="controls">
     <button class="primary" id="btn-rand">สุ่มโจทย์</button>
+    
+    <span id="id-selector-wrap" style="display:none; margin-left:16px; border-left: 2px solid #34465f; padding-left: 16px;">
+        <input id="q-id-input" placeholder="พิมพ์ ID โจทย์" type="number" style="width:100px;"/>
+        <button id="btn-jump" class="ghost">เลือกข้อ</button>
+    </span>
     <span class="stretch"></span>
     <button class="warn" id="btn-finish-early">จบการทดสอบ</button>
 </div>
@@ -149,6 +153,7 @@ window.MathJax = {
 </div>
 </div>
 </div>
+<script>
 <script>
 const questionBankData =
 [
@@ -4784,21 +4789,26 @@ const questionBankData =
   const $ = (id) => document.getElementById(id);
   const fmt = (n) => String(n).padStart(2,'0');
 
+  // --- START: แก้ไขส่วนรหัสผ่าน ---
+  const adminPasswords = [ // รหัสผ่านพิเศษสำหรับเลือกข้อ
+    "Sierra-Tutor-Bot", "MGP-Test-User", "NMR-Exam-Access"
+  ];
+  
   const validPasswords = [
     "79307", "46516", "53388", "67987", "75187",
     "93908", "27866", "72116", "55050", "16905",
     "45325", "75946", "21732", "87470", "79385",
-    "47276", "26863", "1859", "Sierra-Tutor-Bot", "Tango-D0wn-Load",
+    "47276", "26863", "1859", "Tango-D0wn-Load",
     "Uniform-V!ctory", "Victor-is-C00l", "Whiskey-G0-G0", "Xray-Sc@nner-X", "Yankee-Doodl3",
-    "Zulu-M@ster-Key", "MGP-Test-User", "BD-Math-Practice", "NMR-Exam-Access", "A-Level-Ready!",
-    "Math-Test-2025", "Password12345", "Panachai-Test-01", "WelcomeToTheTest", "LetMeInPlease!"
+    "Zulu-M@ster-Key", "BD-Math-Practice", "A-Level-Ready!",
+    "Math-Test-2025", "Password12345", "Panachai-Test-01", "WelcomeToTheTest", "LetMeInPlease!",
+    ...adminPasswords // รวมรหัสพิเศษเข้าไปในรหัสที่สามารถ login ได้ทั้งหมด
   ];
+  // --- END: แก้ไขส่วนรหัสผ่าน ---
   
   let currentSessionId = null; 
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwJSwBMog7zcRejsN4gOqVInu62LnN1EqpIgYxBQcRwyXNl0MWElhELwXXIXFUfNCO8/exec'; 
 
-  // ✅ REVISED: เปลี่ยนการส่งข้อมูลทั้งหมดให้เป็นแบบมาตรฐาน (เหมือนตอน Login)
-  // เพื่อความแน่นอนสูงสุดว่า Server จะประมวลผลได้
   function logEventToSheet(action, data) {
     let params = new URLSearchParams();
     params.append('action', action);
@@ -4810,18 +4820,14 @@ const questionBankData =
       params.append('sessionId', currentSessionId);
     }
 
-    // ใช้ fetch แบบมาตรฐานสำหรับทุก action
     fetch(WEB_APP_URL, {
         method: 'POST',
         body: params
-        // ไม่ใช้ mode: 'no-cors' แล้ว
     })
     .then(response => {
-        // เฉพาะตอน login เท่านั้นที่เราต้องการอ่านค่าที่ส่งกลับมา
         if (action === 'login') {
             return response.json();
         }
-        // สำหรับ action อื่นๆ (เช่น logout) เราไม่จำเป็นต้องรอค่าตอบกลับ
         return { status: 'sent' };
     })
     .then(result => {
@@ -4839,14 +4845,12 @@ const questionBankData =
     .catch(error => console.error(`Error on '${action}' action:`, error));
   }
   
-  // สำหรับการปิดหน้าต่าง sendBeacon ยังเป็นทางเลือกที่ดีที่สุด
   window.addEventListener('pagehide', function() {
     if (currentSessionId) { 
       let params = new URLSearchParams();
       params.append('action', 'logout');
       params.append('sessionId', currentSessionId);
       const blob = new Blob([params.toString()], { type: 'application/x-www-form-urlencoded' });
-      // sendBeacon เป็นการส่งแบบ "best-effort" อาจไม่สำเร็จ 100% ขึ้นอยู่กับ server
       navigator.sendBeacon(WEB_APP_URL, blob);
     }
   });
@@ -4870,10 +4874,15 @@ const questionBankData =
     savedMsg = $('savedMsg'), scoreWrap = $('scoreWrap'),
     loginScreen = $('loginScreen'), quizApp = $('quizApp'), btnLogin = $('btnLogin'),
     pwdInput = $('pwd'),
-    msg = $('msg');
+    msg = $('msg'),
+    // --- START: เพิ่ม Element ใหม่ ---
+    idSelectorWrap = $('id-selector-wrap'),
+    qIdInput = $('q-id-input'),
+    btnJump = $('btn-jump');
+    // --- END: เพิ่ม Element ใหม่ ---
 
   // Data
- const ALL = questionBankData.filter(q => q && (q.statementHtml || q.statement || q.html));
+  const ALL = questionBankData.filter(q => q && (q.statementHtml || q.statement || q.html));
   const MAX_Q = 30;
 
   // State
@@ -4989,8 +4998,6 @@ const questionBankData =
 
     if (currentSessionId) {
         logEventToSheet('logout', {});
-        // สำคัญ: เราไม่ล้าง sessionId ทันที เพื่อให้ sendBeacon ใน pagehide ยังมีโอกาสทำงาน
-        // แต่เราตั้งค่า started เป็น false เพื่อป้องกันการทำงานซ้ำซ้อน
     }
     
     started = false; 
@@ -5003,6 +5010,7 @@ const questionBankData =
     inputBox.style.display = 'none';
     btnRand.style.display = 'none';
     btnFinishEarly.style.display = 'none';
+    idSelectorWrap.style.display = 'none'; // ซ่อนปุ่มพิเศษเมื่อจบ
 
     let correct = 0;
     for (const q of seq) {
@@ -5033,11 +5041,12 @@ const questionBankData =
       if (started) {
           nextQuestion();
       } else {
-          currentSessionId = null; // ล้าง sessionId เมื่อกดเริ่มใหม่จริงๆ
+          currentSessionId = null; 
           initSession();
       }
   });
 
+  // --- START: แก้ไขฟังก์ชัน Login ---
   btnLogin?.addEventListener('click', () => {
     const enteredPassword = pwdInput.value;
 
@@ -5046,6 +5055,14 @@ const questionBankData =
       loginScreen.style.display = 'none';
       loginScreen.setAttribute('aria-hidden', 'true');
       quizApp.style.display = 'block';
+      
+      // ตรวจสอบว่าเป็นรหัสผ่านพิเศษหรือไม่
+      if (adminPasswords.includes(enteredPassword)) {
+          idSelectorWrap.style.display = 'inline-flex'; // แสดงปุ่มเลือกข้อ
+      } else {
+          idSelectorWrap.style.display = 'none'; // ซ่อนไว้สำหรับผู้ใช้ทั่วไป
+      }
+      
       metaStatus.textContent = 'ตอบแล้ว 0 ข้อ';
       metaQueue.textContent = `ในคลัง ${Math.min(MAX_Q, ALL.length)} ข้อ`;
       prog.max = Math.min(MAX_Q, ALL.length) || 1;
@@ -5056,13 +5073,38 @@ const questionBankData =
       msg.textContent = 'รหัสผ่านไม่ถูกต้อง';
     }
   });
+  // --- END: แก้ไขฟังก์ชัน Login ---
 
   pwdInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') btnLogin.click();
   });
+
+  // --- START: เพิ่มฟังก์ชันการทำงานของปุ่มเลือกข้อ ---
+  btnJump?.addEventListener('click', () => {
+      const targetId = parseInt(qIdInput.value, 10);
+      if (isNaN(targetId)) {
+          alert('กรุณาใส่ ID ที่เป็นตัวเลข');
+          return;
+      }
+      
+      const question = ALL.find(q => q.id === targetId);
+      
+      if (question) {
+          // แสดงโจทย์ที่เลือก แต่ไม่กระทบสถานะการทำข้อสอบ (idx, answered)
+          metaId.textContent = `(ดูตัวอย่าง) ID=${question.id}`;
+          savedMsg.textContent = '';
+          renderQuestion(question);
+      } else {
+          alert(`ไม่พบโจทย์ ID: ${targetId}`);
+      }
+  });
+  // --- END: เพิ่มฟังก์ชันการทำงานของปุ่มเลือกข้อ ---
 
   if (quizApp && quizApp.style.display !== 'none') {
     metaStatus.textContent = 'ตอบแล้ว 0 ข้อ'; metaQueue.textContent = `ในคลัง ${Math.min(MAX_Q, ALL.length)} ข้อ`; prog.max = Math.min(MAX_Q, ALL.length) || 1; prog.value = 0; progText.textContent = `0/${Math.min(MAX_Q, ALL.length)}`; renderTimer();
   }
 })();
 </script>
+
+</body>
+</html>
