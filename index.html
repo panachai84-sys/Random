@@ -149,7 +149,8 @@ window.MathJax = {
 </div>
 </div>
 </div>
-<script id="bank" type="application/json">
+<script>
+const questionBankData =
 [
   {
     "id": 1,
@@ -4773,7 +4774,7 @@ window.MathJax = {
       "1"
     ]
   }
-]
+];
 </script>
 
 
@@ -4872,7 +4873,7 @@ window.MathJax = {
     msg = $('msg');
 
   // Data
-  const ALL = getBank().filter(q => q && (q.statementHtml || q.statement || q.html));
+ const ALL = questionBankData.filter(q => q && (q.statementHtml || q.statement || q.html));
   const MAX_Q = 30;
 
   // State
